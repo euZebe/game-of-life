@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ALIVE, DEAD } from '../store/cell';
+import { ALIVE, DEAD } from '../store/cell-duck';
 
-const Cell = ({state}) => {
-  return state === ALIVE
-    ? <span role="img" aria-label="alive">🔴</span>
-    : <span role="img" aria-label="dead">⭕</span>;
+const Cell = ({status, toggleState}) => {
+  return status === ALIVE
+    ? <span role="img" aria-label="alive" onClick={toggleState}>🔴</span>
+    : <span role="img" aria-label="dead" onClick={toggleState}>⭕</span>;
 };
 
 Cell.propTypes = {
   state: PropTypes.string,
-}
+  toggleState: PropTypes.func,
+};
 
 Cell.defaultProps = {
   state: DEAD,
-}
+  toggleState: () => {},
+};
 
 export default Cell;

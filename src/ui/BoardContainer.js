@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Cells from './Cells';
-import { addCell, ALIVE, DEAD } from '../store/cell';
+import Cells from './Board';
+import { addCell, computeNextState, toggleStatus, ALIVE, DEAD } from '../store/cell-duck';
 
 const mapStateToProps = (state) => {
   return {
@@ -11,6 +11,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   addDeadCell: () => dispatch(addCell(DEAD)),
   addAliveCell: () => dispatch(addCell(ALIVE)),
+  play: () => dispatch(computeNextState()),
+  toggle: (id) => dispatch(toggleStatus(id)),
 });
 
 const CellsContainer = connect(mapStateToProps, mapDispatchToProps)(Cells);

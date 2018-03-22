@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import CellsContainer from './CellsContainer';
+import CellsContainer from './BoardContainer';
 
 class App extends Component {
 
