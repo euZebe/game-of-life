@@ -1,20 +1,33 @@
 import { connect } from 'react-redux';
-import Cells from './Board';
-import { addCell, computeNextState, toggleStatus, ALIVE, DEAD } from '../store/cell-duck';
+import Board from './Board';
+import { addCell, ALIVE, computeNextState, DEAD, toggleStatus, updateNeighbours } from '../store/cell-duck';
+import { initRectangleWorld } from '../store/world-duck';
+import { tableOfCellsSelector, worldHeight, worldWidth } from '../store/reducers';
 
 const mapStateToProps = (state) => {
   return {
-    cells: state.cells,
+    tableOfCells: tableOfCellsSelector(state),
+    lines: worldHeight(state),
+    rows: worldWidth(state),
   }
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addDeadCell: () => dispatch(addCell(DEAD)),
-  addAliveCell: () => dispatch(addCell(ALIVE)),
-  play: () => dispatch(computeNextState()),
+  play: () => {
+    dispatch(addCell(ALIVE, { x: 0, y: 0 }));
+    dispatch(addCell(ALIVE, { x: 1, y: 0 }));
+    dispatch(addCell(DEAD, { x: 2, y: 0 }));
+    dispatch(addCell(DEAD, { x: 0, y: 1 }));
+    dispatch(addCell(DEAD, { x: 1, y: 1 }));
+    dispatch(addCell(ALIVE, { x: 2, y: 1 }));
+  },
   toggle: (id) => dispatch(toggleStatus(id)),
+  init: () => {
+    dispatch(initRectangleWorld());
+    dispatch(updateNeighbours());
+  },
 });
 
-const CellsContainer = connect(mapStateToProps, mapDispatchToProps)(Cells);
+const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);
 
-export default CellsContainer;
+export default BoardContainer;
