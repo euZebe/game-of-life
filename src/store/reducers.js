@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
+import reduceReducers from 'reduce-reducers';
 import { cellsByIdReducer, cellsByPositionReducer } from './cell-duck';
-import { worldReducer } from './world-duck';
+import { updateNeighboursReducer } from './neighbours-duck';
 
 export const cellsByIdSelector = state => state.cellsById;
 export const cellsByPositionSelector = state => state.cellsByPosition;
@@ -23,10 +24,13 @@ export const tableOfCellsSelector = createSelector(
   }
 );
 
-const rootReducer = combineReducers({
-  cellsById: cellsByIdReducer,
-  cellsByPosition: cellsByPositionReducer,
-  world: worldReducer,
-});
+
+const rootReducer = reduceReducers(
+  combineReducers({
+    cellsById: cellsByIdReducer,
+    cellsByPosition: cellsByPositionReducer,
+  }),
+  updateNeighboursReducer,
+);
 
 export default rootReducer;

@@ -3,21 +3,10 @@ import Cell from './Cell';
 
 class Board extends React.Component {
 
-  play = () => {
-    // const { addAliveCell } = this.props;
-    // if (!this.intervalId) {
-    //   this.intervalId = setInterval(addAliveCell, 1000);
-    // } else {
-    //   clearInterval(this.intervalId);
-    //   this.intervalId = undefined;
-    // }
-    this.props.play();
-  }
-
-  renderRowOfCells = (cells) => {
+  renderRowOfCells = (cells, index) => {
     const { toggle } = this.props;
     return (
-      <div>
+      <div key={index}>
         {Object.values(cells).map(c => <Cell key={c.id} status={c.status} toggleState={() => toggle(c.id)}/>)}
       </div>
     );
@@ -29,9 +18,11 @@ class Board extends React.Component {
   }
 
   render() {
+    const {init, play} = this.props;
     return (
       <React.Fragment>
-        <button onClick={this.play}>⏯</button>
+        <span role="img" aria-label="init" onClick={init}>🎆</span>
+        <span role="img" aria-label="play" onClick={play}>⏯</span>
         <div>
           {this.renderCells()}
         </div>
