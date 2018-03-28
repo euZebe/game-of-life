@@ -18,11 +18,9 @@ class Board extends React.Component {
   }
 
   render() {
-    const {init, play} = this.props;
+    const {play} = this.props;
     return (
       <React.Fragment>
-        <span role="img" aria-label="init" onClick={init}>🎆</span>
-        <span role="img" aria-label="play" onClick={play}>⏯</span>
         <div>
           {this.renderCells()}
         </div>
