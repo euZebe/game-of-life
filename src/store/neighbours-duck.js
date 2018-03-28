@@ -1,4 +1,4 @@
-import { cellsByIdSelector, cellsByPositionSelector } from './reducers';
+import { cellsByIdSelector, cellsIDByPositionSelector } from './reducers';
 
 const UPDATE_NEIGHBOURS = 'UPDATE_NEIGHBOURS';
 const UPDATE_NEIGHBOURS_FOR_CELL = 'UPDATE_NEIGHBOURS_FOR_CELL';
@@ -18,7 +18,7 @@ export const updateNeighbours = cell => (cell ? {
 export const updateNeighboursReducer = (state, action) => {
   switch (action.type) {
     case UPDATE_NEIGHBOURS:
-      const cellsByPosition = cellsByPositionSelector(state);
+      const cellsByPosition = cellsIDByPositionSelector(state);
       const cellsWithNeighboursToUpdate = Object.values(cellsByIdSelector(state));
       const cellsById = cellsWithNeighboursToUpdate
         .map(cell => ({

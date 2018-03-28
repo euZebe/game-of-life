@@ -5,9 +5,7 @@ import { cellsByIdReducer, cellsByPositionReducer } from './cell-duck';
 import { updateNeighboursReducer } from './neighbours-duck';
 
 export const cellsByIdSelector = state => state.cellsById;
-export const cellsByPositionSelector = state => state.cellsByPosition;
-export const worldHeight = state => state.world.height;
-export const worldWidth = state => state.world.width;
+export const cellsIDByPositionSelector = state => state.cellsByPosition;
 
 export const tableOfCellsSelector = createSelector(
   cellsByIdSelector,

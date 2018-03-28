@@ -6,11 +6,13 @@ const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
 export const ALIVE = 'alive';
 export const DEAD = 'dead';
 
+let id = 0;
+
 export const addCell = (cellStatus, position) => ({
   type: ADD_CELL,
   cellStatus,
   position,
-  id: shortid.generate(),
+  id: ++id,
 });
 export const computeNextState = { type: COMPUTE_NEXT_STATE };
 export const toggleStatus = (id) => ({
@@ -18,9 +20,10 @@ export const toggleStatus = (id) => ({
   id
 });
 
-export function nextState(cell = {}) {
-  return cell.neighbours
-  && ((cell.status === ALIVE && cell.neighbours.length === 2) || cell.neighbours.length === 3)
+export function nextState(cell = {}, neighbours) {
+  const aliveNeighbours = neighbours.filter(n => n.status === ALIVE);
+  return aliveNeighbours
+  && ((cell.status === ALIVE && aliveNeighbours.length === 2) || aliveNeighbours.length === 3)
     ? ALIVE
     : DEAD;
 }
@@ -39,15 +42,19 @@ export function cellsByIdReducer(state = {}, action) {
       };
 
     case COMPUTE_NEXT_STATE:
-      return Object.entries(state).reduce((aggregator, [id, value]) => ({
-        ...aggregator,
-        [id]: {
-          ...value,
-          status: nextState(value)
-        },
-      }));
+      return Object.entries(state).reduce((aggregator, [id, cell]) => {
+          return {
+            ...aggregator,
+            [id]: {
+              ...cell,
+              status: nextState(cell, cellsByPositionSelector(state, cell.neighboursIDs)),
+            },
+          }
+        }
+      , {});
 
-    case TOGGLE_CELL_STATUS:
+    case
+    TOGGLE_CELL_STATUS:
       return {
         ...state,
         [action.id]: {
@@ -58,6 +65,10 @@ export function cellsByIdReducer(state = {}, action) {
     default:
       return state;
   }
+}
+
+export const cellsByPositionSelector = (cellsById, ids) => {
+  return ids.map(id => cellsById[id]);
 }
 
 export function cellsByPositionReducer(state = {}, action) {
