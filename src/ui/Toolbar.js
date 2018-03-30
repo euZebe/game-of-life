@@ -1,33 +1,75 @@
 import React from 'react';
+import './App.css';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+
+const styles = {
+  button: {
+    margin: 5,
+  },
+  input: {
+    width: 80,
+  },
+};
+
+const Input = ({ name, onChange, defaultValue, placeholder, value }) => (
+  <TextField
+    type="number"
+    defaultValue={defaultValue}
+    onChange={onChange}
+    hintText={placeholder}
+    style={styles.input}
+    name={name}
+    value={value}
+  />
+);
 
 export default class Toolbar extends React.Component {
 
+  state = { rows: 10, cols: 20 };
+  intervalID = undefined;
+
   init = () => {
-    this.props.init(this.rowsInput.value, this.colsInput.value);
+    const { rows, cols } = this.state;
+    this.props.init(rows, cols);
+    this.stop();
   };
 
-  play = () => {
+  stop = () => {
     if (this.intervalID) {
       clearInterval(this.intervalID);
       this.intervalID = undefined;
-    } else if (this.rowsInput.value && this.colsInput.value) {
+    }
+  }
+
+  play = () => {
+    const { rows, cols } = this.state;
+    if (this.intervalID) {
+      clearInterval(this.intervalID);
+      this.intervalID = undefined;
+    } else if (rows && cols) {
       this.intervalID = setInterval(this.props.play, 500);
     }
   };
 
-  render() {
-    return (
-      <React.Fragment>
-        <label>
-          Rows: <input defaultValue={10} type="number" ref={rows => this.rowsInput = rows}/>
-        </label>
-        <label>
-          Columns: <input defaultValue={20} type="number" ref={cols => this.colsInput = cols}/>
-        </label>
-        <button role="img" aria-label="create" onClick={this.init}>🎆</button>
-        <button role="img" aria-label="play" onClick={this.play}>⏯</button>
+  handleChange = (e) => {
+    const field = e.target.name;
+    this.setState({ [field]: e.target.value });
+  }
 
-      </React.Fragment>
+  render() {
+    const { iterationNumber } = this.props;
+    return (
+      <div className="toolbar">
+        {
+          Object.keys(this.state).map(key => (
+            <Input key={key} name={key} placeholder={key} value={this.state[key]} onChange={this.handleChange}/>
+          ))
+        }
+        <RaisedButton primary onClick={this.init} label="create" style={styles.button}/>
+        <RaisedButton primary onClick={this.play} label="play" style={styles.button}/>
+        {iterationNumber ? <span>Iteration #{iterationNumber}</span> : ''}
+      </div>
     );
   }
 }

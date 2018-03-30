@@ -1,7 +1,7 @@
 import shortid from 'shortid';
 
-const ADD_CELL = 'ADD_CELL';
-const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
+export const ADD_CELL = 'ADD_CELL';
+export const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
 const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
 export const ALIVE = 'alive';
 export const DEAD = 'dead';
@@ -83,3 +83,16 @@ export function cellsByPositionReducer(state = {}, action) {
       return state;
   }
 }
+
+export function iterationNumberReducer(iterationNumber = 0, action) {
+  switch (action.type) {
+    case ADD_CELL:
+      return 0;
+    case COMPUTE_NEXT_STATE:
+      return iterationNumber + 1;
+    default:
+      return iterationNumber;
+  }
+}
+
+export const iterationNumberSelector = state => state.iterationNumber;

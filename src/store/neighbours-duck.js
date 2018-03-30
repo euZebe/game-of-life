@@ -1,14 +1,11 @@
 import { cellsByIdSelector, cellsIDByPositionSelector } from './reducers';
 
-const UPDATE_NEIGHBOURS = 'UPDATE_NEIGHBOURS';
-const UPDATE_NEIGHBOURS_FOR_CELL = 'UPDATE_NEIGHBOURS_FOR_CELL';
+export const UPDATE_NEIGHBOURS = 'UPDATE_NEIGHBOURS';
 
 
-export const updateNeighbours = cell => (cell ? {
-  type: UPDATE_NEIGHBOURS_FOR_CELL, position: cell.position
-} : {
+export const updateNeighbours = {
   type: UPDATE_NEIGHBOURS
-});
+};
 
 /**
  * @param state - complete state available here

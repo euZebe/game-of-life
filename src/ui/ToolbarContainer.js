@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import Toolbar from './Toolbar';
-import { addCell, computeNextState, DEAD, ALIVE } from '../store/cell-duck';
+import { addCell, computeNextState, DEAD, ALIVE, iterationNumberSelector } from '../store/cell-duck';
 import { updateNeighbours } from '../store/neighbours-duck';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  iterationNumber: iterationNumberSelector(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   init: (rowsAmount, colsAmount) => {
@@ -13,7 +15,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(addCell(status, { x, y }));
       }
     }
-    dispatch(updateNeighbours());
+    dispatch(updateNeighbours);
   },
   play: () => dispatch(computeNextState),
 });
