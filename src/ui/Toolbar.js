@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import IterationCounter from './IterationCounter';
 
 const styles = {
   button: {
@@ -26,7 +27,7 @@ const Input = ({ name, onChange, defaultValue, placeholder, value }) => (
 
 const ITERATION_INTERVAL = 100;
 
-export default class Toolbar extends React.Component {
+export default class Toolbar extends React.PureComponent {
 
   state = { rows: 10, cols: 20 };
   intervalID = undefined;
@@ -54,13 +55,23 @@ export default class Toolbar extends React.Component {
     }
   };
 
+  genocide = () => {
+    this.stop();
+    this.props.killThemAll();
+  };
+
+  lifeEverywhere = () => {
+    this.stop();
+    this.props.lifeEverywhere();
+  }
+
   handleChange = (e) => {
     const field = e.target.name;
     this.setState({ [field]: e.target.value });
   }
 
   render() {
-    const { iterationNumber, killThemAll, lifeEverywhere } = this.props;
+    const { iterationNumber, thereAreCells } = this.props;
     return (
       <div className="toolbar">
         {
@@ -69,10 +80,14 @@ export default class Toolbar extends React.Component {
           ))
         }
         <RaisedButton primary onClick={this.init} label="create" style={styles.button}/>
-        <RaisedButton primary onClick={this.play} label="play" style={styles.button}/>
-        <RaisedButton secondary onClick={killThemAll} label="genocide" style={styles.button}/>
-        <RaisedButton secondary onClick={lifeEverywhere} label="life everywhere" style={styles.button}/>
-        {iterationNumber ? <span>Iteration #{iterationNumber}</span> : ''}
+        { thereAreCells &&
+          <React.Fragment>
+            <RaisedButton primary onClick={this.play} label="play" style={styles.button}/>
+            <RaisedButton secondary onClick={this.genocide} label="genocide" style={styles.button}/>
+            <RaisedButton secondary onClick={this.lifeEverywhere} label="life everywhere" style={styles.button}/>
+            <IterationCounter />
+          </React.Fragment>
+        }
       </div>
     );
   }

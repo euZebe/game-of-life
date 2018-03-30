@@ -1,18 +1,19 @@
 import { connect } from 'react-redux';
 import Toolbar from './Toolbar';
 import {
-addCell,
-computeNextState,
-DEAD,
-ALIVE,
-iterationNumberSelector,
-killThemAll,
-lifeEverywhere,
+  addCell,
+  computeNextState,
+  DEAD,
+  ALIVE,
+  iterationNumberSelector,
+  killThemAll,
+  lifeEverywhere,
 } from '../store/cell-duck';
 import { updateNeighbours } from '../store/neighbours-duck';
+import { cellsIDByPositionSelector } from '../store/reducers';
 
 const mapStateToProps = (state) => ({
-  iterationNumber: iterationNumberSelector(state),
+  thereAreCells: Object.keys(cellsIDByPositionSelector(state)).length > 0,
 });
 
 const mapDispatchToProps = (dispatch) => ({
