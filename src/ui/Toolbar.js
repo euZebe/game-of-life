@@ -24,6 +24,8 @@ const Input = ({ name, onChange, defaultValue, placeholder, value }) => (
   />
 );
 
+const ITERATION_INTERVAL = 100;
+
 export default class Toolbar extends React.Component {
 
   state = { rows: 10, cols: 20 };
@@ -48,7 +50,7 @@ export default class Toolbar extends React.Component {
       clearInterval(this.intervalID);
       this.intervalID = undefined;
     } else if (rows && cols) {
-      this.intervalID = setInterval(this.props.play, 500);
+      this.intervalID = setInterval(this.props.play, ITERATION_INTERVAL);
     }
   };
 
@@ -58,7 +60,7 @@ export default class Toolbar extends React.Component {
   }
 
   render() {
-    const { iterationNumber } = this.props;
+    const { iterationNumber, killThemAll, lifeEverywhere } = this.props;
     return (
       <div className="toolbar">
         {
@@ -68,6 +70,8 @@ export default class Toolbar extends React.Component {
         }
         <RaisedButton primary onClick={this.init} label="create" style={styles.button}/>
         <RaisedButton primary onClick={this.play} label="play" style={styles.button}/>
+        <RaisedButton secondary onClick={killThemAll} label="genocide" style={styles.button}/>
+        <RaisedButton secondary onClick={lifeEverywhere} label="life everywhere" style={styles.button}/>
         {iterationNumber ? <span>Iteration #{iterationNumber}</span> : ''}
       </div>
     );

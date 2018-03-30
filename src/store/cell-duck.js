@@ -1,8 +1,8 @@
-import shortid from 'shortid';
-
 export const ADD_CELL = 'ADD_CELL';
 export const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
 const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
+const GENOCIDE = 'TOGGLE_GENOCIDE';
+const LIFE_EVERYWHERE = 'LIFE_EVERYWHERE';
 export const ALIVE = 'alive';
 export const DEAD = 'dead';
 
@@ -28,6 +28,17 @@ export function nextState(cell = {}, neighbours) {
     : DEAD;
 }
 
+export const lifeEverywhere = { type: LIFE_EVERYWHERE };
+export const killThemAll = { type: GENOCIDE };
+
+function allCellsWithSameStatus(state, status) {
+  return Object.values(state)
+    .reduce((aggregator, cell) => ({
+      ...aggregator,
+      [cell.id]: { ...cell, status },
+    }), {});
+}
+
 export function cellsByIdReducer(state = {}, action) {
   switch (action.type) {
 
@@ -51,10 +62,9 @@ export function cellsByIdReducer(state = {}, action) {
             },
           }
         }
-      , {});
+        , {});
 
-    case
-    TOGGLE_CELL_STATUS:
+    case TOGGLE_CELL_STATUS:
       return {
         ...state,
         [action.id]: {
@@ -62,6 +72,11 @@ export function cellsByIdReducer(state = {}, action) {
           status: state[action.id].status === ALIVE ? DEAD : ALIVE
         }
       };
+
+    case GENOCIDE:
+      return allCellsWithSameStatus(state, DEAD);
+    case LIFE_EVERYWHERE:
+      return allCellsWithSameStatus(state, ALIVE);
     default:
       return state;
   }
