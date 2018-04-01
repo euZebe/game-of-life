@@ -71,7 +71,7 @@ export default class Toolbar extends React.PureComponent {
   }
 
   render() {
-    const { iterationNumber, thereAreCells } = this.props;
+    const { thereAreCells } = this.props;
     return (
       <div className="toolbar">
         {

@@ -5,10 +5,10 @@ import {
   killThemAll,
   lifeEverywhere, createWorld,
 } from '../store/cell-duck';
-import { cellsByIdSelector } from '../store/reducers';
+import { tableOfCellsSelector } from '../store/reducers';
 
 const mapStateToProps = (state) => ({
-  thereAreCells: Object.keys(cellsByIdSelector(state)).length > 0,
+  thereAreCells: tableOfCellsSelector(state).length,
 });
 
 const mapDispatchToProps = (dispatch) => ({

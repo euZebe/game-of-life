@@ -1,21 +1,29 @@
 import {
   ALIVE,
-  cellsByIdReducer,
+  cellsTableReducer, computeNextState,
   createWorld,
-  DEAD,
+  DEAD, killThemAll,
   toggleStatus
 } from './cell-duck';
 
-describe('cellsByIdReducer', () => {
-  test('should create a world corresponding to the given dimensions', () => {
-    let state = Object.freeze({});
-    const world = cellsByIdReducer(state, createWorld(3, 2));
-    expect(Object.keys(world)).toEqual(expect.arrayContaining(['0,0', '0,1', '0,2', '1,0', '1,1', '1,2']));
+describe('cellsTableReducer', () => {
+  test('should create a world as a two-dimension array', () => {
+    const world = cellsTableReducer(undefined, createWorld(2, 3));
+    const fullOfLifeWorld = cellsTableReducer(world, killThemAll);
+    expect(fullOfLifeWorld).toEqual([
+      [DEAD, DEAD, DEAD],
+      [DEAD, DEAD, DEAD],
+    ]);
   });
-
-  test('should toggle cell status', () => {
-    const state = Object.freeze({ '45502sdk': { status: ALIVE, position: { x: 1, y: 5 } } });
-    const state1 = cellsByIdReducer(state, toggleStatus('45502sdk'));
-    expect(state1).toEqual({ '45502sdk': { status: DEAD, position: { x: 1, y: 5 } } });
+  test('should process nextState for all cells of the two-dimension array', () => {
+    const initialState = Object.freeze([
+      Object.freeze([ALIVE, ALIVE, ALIVE]),
+      Object.freeze([DEAD, DEAD, DEAD]),
+    ]);
+    const nextState = cellsTableReducer(initialState, computeNextState);
+    expect(nextState).toEqual([
+      [DEAD, ALIVE, DEAD],
+      [DEAD, ALIVE, DEAD],
+    ]);
   });
 });

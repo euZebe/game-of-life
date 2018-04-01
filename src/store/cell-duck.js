@@ -3,8 +3,8 @@ const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
 const GENOCIDE = 'TOGGLE_GENOCIDE';
 const LIFE_EVERYWHERE = 'LIFE_EVERYWHERE';
 const CREATE_WORLD = 'CREATE_WORLD';
-export const ALIVE = 'alive';
-export const DEAD = 'dead';
+export const ALIVE = true;
+export const DEAD = false;
 
 export const createWorld = (rows, cols) => ({
   type: CREATE_WORLD,
@@ -18,87 +18,10 @@ export const toggleStatus = (id) => ({
   id
 });
 
-export function nextState(cell = {}, neighbours) {
-  const aliveNeighbours = neighbours.filter(n => n.status === ALIVE);
-  return aliveNeighbours
-  && ((cell.status === ALIVE && aliveNeighbours.length === 2) || aliveNeighbours.length === 3)
-    ? ALIVE
-    : DEAD;
-}
-
 export const lifeEverywhere = { type: LIFE_EVERYWHERE };
 export const killThemAll = { type: GENOCIDE };
 
-function allCellsWithSameStatus(state, status) {
-  return Object.values(state)
-    .reduce((aggregator, cell) => ({
-      ...aggregator,
-      [cell.id]: { ...cell, status },
-    }), {});
-}
-
 const cellID = (x, y) => `${x},${y}`;
-
-export function cellsByIdReducer(cellsByID = {}, action) {
-  switch (action.type) {
-
-    case CREATE_WORLD:
-      const result = {};
-      for (let y = 0; y < action.rows; y++) {
-        for (let x = 0; x < action.cols; x++) {
-          const id = cellID(x, y);
-          result[id] = {
-            id,
-            status: Math.random() < 0.4 ? ALIVE : DEAD,
-            position: { x, y },
-            neighboursIDs: [ // TODO: factorize checks
-              x > 0 && y > 0 && cellID(x - 1, y - 1),
-              y > 0 && cellID(x, y - 1),
-              x < action.rows - 1 && y > 0 && cellID(x + 1, y - 1),
-              x > 0 && cellID(x - 1, y),
-              x < action.rows - 1 && cellID(x + 1, y),
-              x > 0 && y < action.cols - 1 && cellID(x - 1, y + 1),
-              cellID(x, y + 1),
-              x < action.rows - 1 && y < action.cols - 1 && cellID(x + 1, y + 1),
-            ],
-          };
-        }
-      }
-      return result;
-
-    case COMPUTE_NEXT_STATE:
-      return Object.entries(cellsByID).reduce((aggregator, [id, cell]) => {
-          return {
-            ...aggregator,
-            [id]: {
-              ...cell,
-              status: nextState(cell, cellsSelector(cellsByID, cell.neighboursIDs)),
-            },
-          }
-        }
-        , {});
-
-    case TOGGLE_CELL_STATUS:
-      return {
-        ...cellsByID,
-        [action.id]: {
-          ...cellsByID[action.id],
-          status: cellsByID[action.id].status === ALIVE ? DEAD : ALIVE
-        }
-      };
-
-    case GENOCIDE:
-      return allCellsWithSameStatus(cellsByID, DEAD);
-    case LIFE_EVERYWHERE:
-      return allCellsWithSameStatus(cellsByID, ALIVE);
-    default:
-      return cellsByID;
-  }
-}
-
-export const cellsSelector = (cellsById, ids) => {
-  return ids.map(id => cellsById[id]).filter(n => n);
-}
 
 export function iterationNumberReducer(iterationNumber = 0, action) {
   switch (action.type) {
@@ -112,3 +35,63 @@ export function iterationNumberReducer(iterationNumber = 0, action) {
 }
 
 export const iterationNumberSelector = state => state.iterationNumber;
+
+function switchAllCellsToStatus(state, cellStatus = DEAD) {
+  const genocideState = new Array(state.length);
+  let i = 0;
+  for (; i < state.length; i++) {
+    genocideState[i] = new Array(state[i].length).fill(cellStatus);
+  }
+  return genocideState;
+}
+
+export function cellsTableReducer(state = [], action) {
+  switch (action.type) {
+    case CREATE_WORLD:
+      const newWorld = [];
+      for (let y = 0; y < action.rows; y++) {
+        const row = [];
+        newWorld.push(row);
+        for (let x = 0; x < action.cols; x++) {
+          row.push(Math.random() < 0.4 ? ALIVE : DEAD);
+        }
+      }
+      return newWorld;
+
+    case GENOCIDE:
+      return switchAllCellsToStatus(state, DEAD);
+
+    case LIFE_EVERYWHERE:
+      return switchAllCellsToStatus(state, ALIVE);
+
+    case COMPUTE_NEXT_STATE:
+      const nextWorldState = [];
+      for (let y = 0; y < state.length; y++) {
+        const row = [];
+        nextWorldState.push(row);
+        for (let x = 0; x < state[y].length; x++) {
+          row.push(nextCellStatus(state[y][x], [
+            y > 0 && state[y - 1][x - 1],
+            state[y][x - 1],
+            y < state.length - 1 && state[y + 1][x - 1],
+            y > 0 && state[y - 1][x],
+            y < state.length - 1 && state[y + 1][x],
+            y > 0 && state[y - 1][x + 1],
+            state[y][x + 1],
+            y < state.length - 1 && state[y + 1][x + 1],
+          ]));
+        }
+      }
+      return nextWorldState; // TODO :factorize processing with CREATE_WORLD
+    default:
+      return state;
+  }
+}
+
+function nextCellStatus(cellStatus, neighboursStatus) {
+  const aliveNeighbours = neighboursStatus.filter(n => n === ALIVE);
+  return aliveNeighbours
+  && ((cellStatus === ALIVE && aliveNeighbours.length === 2) || aliveNeighbours.length === 3)
+    ? ALIVE
+    : DEAD;
+}

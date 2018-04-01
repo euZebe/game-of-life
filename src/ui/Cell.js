@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ALIVE, DEAD } from '../store/cell-duck';
+import { ALIVE } from '../store/cell-duck';
 import './App.css';
 
 class Cell extends React.Component {
@@ -18,7 +18,7 @@ class Cell extends React.Component {
 }
 
 Cell.propTypes = {
-  status: PropTypes.string.isRequired,
+  status: PropTypes.bool.isRequired,
   toggleStatus: PropTypes.func,
 };
 
