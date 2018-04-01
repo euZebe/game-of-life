@@ -1,4 +1,3 @@
-export const ADD_CELL = 'ADD_CELL';
 export const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
 const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
 const GENOCIDE = 'TOGGLE_GENOCIDE';
@@ -7,20 +6,12 @@ const CREATE_WORLD = 'CREATE_WORLD';
 export const ALIVE = 'alive';
 export const DEAD = 'dead';
 
-let id = 0;
-
 export const createWorld = (rows, cols) => ({
   type: CREATE_WORLD,
   rows,
   cols,
 });
 
-export const addCell = (cellStatus, position) => ({
-  type: ADD_CELL,
-  cellStatus,
-  position,
-  id: ++id,
-});
 export const computeNextState = { type: COMPUTE_NEXT_STATE };
 export const toggleStatus = (id) => ({
   type: TOGGLE_CELL_STATUS,
@@ -109,23 +100,9 @@ export const cellsSelector = (cellsById, ids) => {
   return ids.map(id => cellsById[id]).filter(n => n);
 }
 
-export function cellsByPositionReducer(state = {}, action) {
-  switch (action.type) {
-    case ADD_CELL:
-      const { x, y } = action.position;
-      return {
-        ...state,
-        [`${x},${y}`]: action.id,
-      };
-    default:
-      return state;
-  }
-}
-
 export function iterationNumberReducer(iterationNumber = 0, action) {
   switch (action.type) {
     case CREATE_WORLD:
-    case ADD_CELL:
       return 0;
     case COMPUTE_NEXT_STATE:
       return iterationNumber + 1;

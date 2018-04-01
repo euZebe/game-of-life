@@ -2,12 +2,9 @@ import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
 import reduceReducers from 'reduce-reducers';
 import {
-  ADD_CELL,
   cellsByIdReducer,
-  cellsByPositionReducer,
   iterationNumberReducer
 } from './cell-duck';
-import { updateNeighboursReducer, UPDATE_NEIGHBOURS } from './neighbours-duck';
 
 export const cellsByIdSelector = state => state.cellsById;
 
@@ -26,32 +23,11 @@ export const tableOfCellsSelector = createSelector(
   }
 );
 
-
-const chronoReducer = (state = {}, action) => {
-  switch (action.type) {
-    case ADD_CELL:
-      return {
-        ...state,
-        startAddingCells: state.startAddingCells || new Date(),
-        lastCellAdd: new Date(),
-      };
-    case UPDATE_NEIGHBOURS:
-      return {
-        ...state,
-        startComputingNeighbours: state.startComputingNeighbours || new Date(),
-      };
-    default:
-      return state;
-  }
-}
-
 const rootReducer = reduceReducers(
   combineReducers({
     cellsById: cellsByIdReducer,
     iterationNumber: iterationNumberReducer,
-    chrono: chronoReducer,
   }),
-  updateNeighboursReducer,
 );
 
 export default rootReducer;
