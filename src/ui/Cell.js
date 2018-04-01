@@ -10,20 +10,20 @@ class Cell extends React.Component {
   }
 
   render() {
-    const {status, toggleState} = this.props;
+    const {status, toggleStatus} = this.props;
     return status === ALIVE
-      ? <span className="cell" role="img" aria-label="alive" onClick={toggleState}>⬛</span>
-      : <span className="cell" role="img" aria-label="dead" onClick={toggleState}>⬜</span>;
+      ? <span className="cell" role="img" aria-label="alive" onClick={toggleStatus}>⬛</span>
+      : <span className="cell" role="img" aria-label="dead" onClick={toggleStatus}>⬜</span>;
   }
 }
 
 Cell.propTypes = {
   status: PropTypes.string.isRequired,
-  toggleState: PropTypes.func,
+  toggleStatus: PropTypes.func,
 };
 
 Cell.defaultProps = {
-  toggleState: () => {},
+  toggleStatus: () => {},
 };
 
 export default Cell;

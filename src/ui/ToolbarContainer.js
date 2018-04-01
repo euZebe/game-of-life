@@ -1,31 +1,18 @@
 import { connect } from 'react-redux';
 import Toolbar from './Toolbar';
 import {
-  addCell,
   computeNextState,
-  DEAD,
-  ALIVE,
-  iterationNumberSelector,
   killThemAll,
-  lifeEverywhere,
+  lifeEverywhere, createWorld,
 } from '../store/cell-duck';
-import { updateNeighbours } from '../store/neighbours-duck';
-import { cellsIDByPositionSelector } from '../store/reducers';
+import { cellsByIdSelector } from '../store/reducers';
 
 const mapStateToProps = (state) => ({
-  thereAreCells: Object.keys(cellsIDByPositionSelector(state)).length > 0,
+  thereAreCells: Object.keys(cellsByIdSelector(state)).length > 0,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  init: (rowsAmount, colsAmount) => {
-    for (let y = 0; y < rowsAmount; y++) {
-      for (let x = 0; x < colsAmount; x++) {
-        const status = Math.random() < 0.5 ? ALIVE : DEAD;
-        dispatch(addCell(status, { x, y }));
-      }
-    }
-    dispatch(updateNeighbours);
-  },
+  init: (rowsAmount, colsAmount) => dispatch(createWorld(rowsAmount, colsAmount)),
   play: () => dispatch(computeNextState),
   killThemAll: () => dispatch(killThemAll),
   lifeEverywhere: () => dispatch(lifeEverywhere),

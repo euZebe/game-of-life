@@ -1,4 +1,4 @@
-import { cellsByIdSelector, cellsIDByPositionSelector } from './reducers';
+import { cellsByIdSelector } from './reducers';
 
 export const UPDATE_NEIGHBOURS = 'UPDATE_NEIGHBOURS';
 
@@ -14,23 +14,6 @@ export const updateNeighbours = {
  */
 export const updateNeighboursReducer = (state, action) => {
   switch (action.type) {
-    case UPDATE_NEIGHBOURS:
-      const cellsByPosition = cellsIDByPositionSelector(state);
-      const cellsWithNeighboursToUpdate = Object.values(cellsByIdSelector(state));
-      const cellsById = cellsWithNeighboursToUpdate
-        .map(cell => ({
-          ...cell,
-          neighboursIDs: getNeighboursIDs(cellsByPosition, cell.position),
-        })).reduce((aggregator, cell) => ({
-            ...aggregator,
-            [cell.id]: cell,
-          }), {}
-        );
-
-      return {
-        ...state,
-        cellsById,
-      };
 
     default:
       return state;

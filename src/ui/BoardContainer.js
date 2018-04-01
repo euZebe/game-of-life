@@ -1,16 +1,14 @@
 import { connect } from 'react-redux';
 import Board from './Board';
-import { toggleStatus } from '../store/cell-duck';
 import { tableOfCellsSelector } from '../store/reducers';
+import { toggleStatus } from '../store/cell-duck';
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = (state) => ({
     tableOfCells: tableOfCellsSelector(state),
-  }
-};
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  toggle: (id) => dispatch(toggleStatus(id)),
+  toggleStatus: id => dispatch(toggleStatus(id)),
 });
 
 const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);

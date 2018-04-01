@@ -10,7 +10,6 @@ import {
 import { updateNeighboursReducer, UPDATE_NEIGHBOURS } from './neighbours-duck';
 
 export const cellsByIdSelector = state => state.cellsById;
-export const cellsIDByPositionSelector = state => state.cellsByPosition;
 
 export const tableOfCellsSelector = createSelector(
   cellsByIdSelector,
@@ -49,7 +48,6 @@ const chronoReducer = (state = {}, action) => {
 const rootReducer = reduceReducers(
   combineReducers({
     cellsById: cellsByIdReducer,
-    cellsByPosition: cellsByPositionReducer,
     iterationNumber: iterationNumberReducer,
     chrono: chronoReducer,
   }),
