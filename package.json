@@ -2,7 +2,7 @@
   "name": "game-of-life",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://euzebe.github.io/game-of-life/",
+  "homepage": "https://euzebe.github.io/game-of-life/",
   "dependencies": {
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
@@ -43,6 +43,7 @@
     "redux": "^3.7.2",
     "reselect": "^3.0.1",
     "style-loader": "0.19.0",
+    "styled-components": "^3.2.5",
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.6.2",
     "webpack": "3.8.1",

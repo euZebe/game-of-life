@@ -8,7 +8,7 @@ import {
 import { tableOfCellsSelector } from '../store/reducers';
 
 const mapStateToProps = (state) => ({
-  thereAreCells: tableOfCellsSelector(state).length,
+  thereAreCells: tableOfCellsSelector(state).length > 0,
 });
 
 const mapDispatchToProps = (dispatch) => ({

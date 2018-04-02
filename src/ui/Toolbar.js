@@ -1,17 +1,24 @@
 import React from 'react';
+import styled from 'styled-components';
 import './App.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import IterationCounter from './IterationCounter';
 
 const styles = {
-  button: {
-    margin: 5,
-  },
   input: {
-    width: 80,
+    width: '50px',
+  },
+  button: {
+    marginLeft: '5px',
   },
 };
+
+const StyledToolbar = styled.div`
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    padding: 5px 20px 0 20px;
+    margin-bottom: 10px;
+`;
 
 const Input = ({ name, onChange, defaultValue, placeholder, value }) => (
   <TextField
@@ -73,22 +80,22 @@ export default class Toolbar extends React.PureComponent {
   render() {
     const { thereAreCells } = this.props;
     return (
-      <div className="toolbar">
+      <StyledToolbar>
         {
           Object.keys(this.state).map(key => (
             <Input key={key} name={key} placeholder={key} value={this.state[key]} onChange={this.handleChange}/>
           ))
         }
         <RaisedButton primary onClick={this.init} label="create" style={styles.button}/>
-        { thereAreCells &&
-          <React.Fragment>
-            <RaisedButton primary onClick={this.play} label="play" style={styles.button}/>
-            <RaisedButton secondary onClick={this.genocide} label="genocide" style={styles.button}/>
-            <RaisedButton secondary onClick={this.lifeEverywhere} label="life everywhere" style={styles.button}/>
-            <IterationCounter />
-          </React.Fragment>
+        {thereAreCells &&
+        <React.Fragment>
+          <RaisedButton primary onClick={this.play} label="play" style={styles.button}/>
+          <RaisedButton secondary onClick={this.genocide} label="genocide" style={styles.button}/>
+          <RaisedButton secondary onClick={this.lifeEverywhere} label="life everywhere" style={styles.button}/>
+          <IterationCounter/>
+        </React.Fragment>
         }
-      </div>
+      </StyledToolbar>
     );
   }
 }
