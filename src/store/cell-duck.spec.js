@@ -26,4 +26,18 @@ describe('cellsTableReducer', () => {
       [DEAD, ALIVE, DEAD],
     ]);
   });
+
+  test('should toggle cell status identifed by the given coordinates', () => {
+    const initialState = Object.freeze([
+      Object.freeze([ALIVE, ALIVE, ALIVE]),
+      Object.freeze([DEAD, DEAD, DEAD]),
+    ]);
+
+    const nextState = cellsTableReducer(initialState, toggleStatus(2, 1));
+
+    expect(nextState).toEqual([
+      [ALIVE, ALIVE, ALIVE],
+      [DEAD, DEAD, ALIVE],
+    ]);
+  });
 });

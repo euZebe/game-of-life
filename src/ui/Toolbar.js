@@ -29,7 +29,7 @@ const ITERATION_INTERVAL = 100;
 
 export default class Toolbar extends React.PureComponent {
 
-  state = { rows: 10, cols: 20 };
+  state = { cols: 20, rows: 10 };
   intervalID = undefined;
 
   init = () => {

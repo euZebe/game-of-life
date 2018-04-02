@@ -7,9 +7,9 @@ const mapStateToProps = (state) => ({
     tableOfCells: tableOfCellsSelector(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  toggleStatus: id => dispatch(toggleStatus(id)),
-});
+const mapDispatchToProps = {
+  toggleStatus,
+};
 
 const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);
 

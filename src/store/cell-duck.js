@@ -1,3 +1,5 @@
+import _cloneDeep from 'lodash/cloneDeep';
+
 export const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
 const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
 const GENOCIDE = 'TOGGLE_GENOCIDE';
@@ -13,9 +15,10 @@ export const createWorld = (rows, cols) => ({
 });
 
 export const computeNextState = { type: COMPUTE_NEXT_STATE };
-export const toggleStatus = (id) => ({
+export const toggleStatus = (x, y) => ({
   type: TOGGLE_CELL_STATUS,
-  id
+  x,
+  y,
 });
 
 export const lifeEverywhere = { type: LIFE_EVERYWHERE };
@@ -83,6 +86,12 @@ export function cellsTableReducer(state = [], action) {
         }
       }
       return nextWorldState; // TODO :factorize processing with CREATE_WORLD
+
+    case TOGGLE_CELL_STATUS:
+      const { x, y } = action;
+      const nextState = _cloneDeep(state);
+      nextState[y][x] = !nextState[y][x];
+      return nextState;
     default:
       return state;
   }

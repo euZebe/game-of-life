@@ -3,12 +3,12 @@ import Cell from './Cell';
 
 class Board extends React.Component {
 
-  renderRowOfCells = (cells, xIndex) => {
+  renderRowOfCells = (cells, colIndex) => {
     const { toggleStatus } = this.props;
     return (
-      <div key={xIndex}>
-        {Object.values(cells).map((cellStatus, yIndex) => (
-          <Cell key={`${xIndex} ${yIndex}`} status={cellStatus} toggleStatus={() => toggleStatus(xIndex, yIndex)}/>)
+      <div key={colIndex}>
+        {Object.values(cells).map((cellStatus, xIndex) => (
+          <Cell key={`${colIndex} ${xIndex}`} status={cellStatus} toggleStatus={() => toggleStatus(xIndex, colIndex)}/>)
         )}
       </div>
     );
@@ -20,7 +20,6 @@ class Board extends React.Component {
   };
 
   render() {
-    console.log('re-rendering at ' + new Date().getMilliseconds());
     return (
       <React.Fragment>
         {this.renderCells()}
