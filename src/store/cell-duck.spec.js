@@ -1,8 +1,8 @@
 import {
   ALIVE,
-  cellsTableReducer, computeNextState,
+  cellsTableReducer, computeNextState, createHexaWorld,
   createWorld,
-  DEAD, killThemAll,
+  DEAD, hexagonalCellsReducer, killThemAll,
   toggleStatus
 } from './cell-duck';
 
@@ -38,6 +38,53 @@ describe('cellsTableReducer', () => {
     expect(nextState).toEqual([
       [ALIVE, ALIVE, ALIVE],
       [DEAD, DEAD, ALIVE],
+    ]);
+  });
+});
+
+describe('hexagonalCellsReducer', () => {
+  test('should create a world of cells with hexagonal relations', () => {
+    const deadWorld = hexagonalCellsReducer(undefined, createHexaWorld(3, DEAD));
+    expect(deadWorld).toEqual([
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [DEAD, undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [DEAD, undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [DEAD, undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
+    ]);
+    const aliveWorld = hexagonalCellsReducer(undefined, createHexaWorld(3, ALIVE));
+    expect(aliveWorld).toEqual([
+      [undefined, ALIVE, undefined, ALIVE, undefined, ALIVE],
+      [ALIVE, undefined, ALIVE, undefined, ALIVE, undefined, ALIVE],
+      [undefined, ALIVE, undefined, ALIVE, undefined, ALIVE],
+      [ALIVE, undefined, ALIVE, undefined, ALIVE, undefined, ALIVE],
+      [undefined, ALIVE, undefined, ALIVE, undefined, ALIVE],
+      [ALIVE, undefined, ALIVE, undefined, ALIVE, undefined, ALIVE],
+      [undefined, ALIVE, undefined, ALIVE, undefined, ALIVE],
+    ]);
+  });
+
+  test('should compute nextState in an hexagonal dimension', () => {
+    const world = [
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [ALIVE, undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [ALIVE, undefined, ALIVE, undefined, ALIVE, undefined, DEAD],
+      [undefined, ALIVE, undefined, DEAD, undefined, DEAD],
+      [ALIVE, undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [undefined, ALIVE, undefined, DEAD, undefined, DEAD],
+    ];
+    const nextState = hexagonalCellsReducer(world, computeNextState);
+    expect(nextState).toEqual([
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [DEAD, undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [ALIVE, undefined, ALIVE, undefined, DEAD, undefined, DEAD],
+      [undefined, ALIVE, undefined, ALIVE, undefined, DEAD],
+      [ALIVE, undefined, DEAD, undefined, DEAD, undefined, DEAD],
+      [undefined, DEAD, undefined, DEAD, undefined, DEAD],
     ]);
   });
 });

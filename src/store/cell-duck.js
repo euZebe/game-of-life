@@ -4,12 +4,13 @@ export const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
 const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
 const GENOCIDE = 'TOGGLE_GENOCIDE';
 const LIFE_EVERYWHERE = 'LIFE_EVERYWHERE';
-const CREATE_WORLD = 'CREATE_WORLD';
+const CREATE_RECTANGLE_WORLD = 'CREATE_RECTANGLE_WORLD';
+const CREATE_HEXA_WORLD = 'CREATE_HEXA_WORLD';
 export const ALIVE = true;
 export const DEAD = false;
 
 export const createWorld = (rows, cols) => ({
-  type: CREATE_WORLD,
+  type: CREATE_RECTANGLE_WORLD,
   rows,
   cols,
 });
@@ -28,7 +29,7 @@ const cellID = (x, y) => `${x},${y}`;
 
 export function iterationNumberReducer(iterationNumber = 0, action) {
   switch (action.type) {
-    case CREATE_WORLD:
+    case CREATE_RECTANGLE_WORLD:
       return 0;
     case COMPUTE_NEXT_STATE:
       return iterationNumber + 1;
@@ -48,15 +49,19 @@ function switchAllCellsToStatus(state, cellStatus = DEAD) {
   return genocideState;
 }
 
+function getRandomStatus() {
+  return Math.random() < 0.4 ? ALIVE : DEAD;
+}
+
 export function cellsTableReducer(state = [], action) {
   switch (action.type) {
-    case CREATE_WORLD:
+    case CREATE_RECTANGLE_WORLD:
       const newWorld = [];
       for (let y = 0; y < action.rows; y++) {
         const row = [];
         newWorld.push(row);
         for (let x = 0; x < action.cols; x++) {
-          row.push(Math.random() < 0.4 ? ALIVE : DEAD);
+          row.push(getRandomStatus());
         }
       }
       return newWorld;
@@ -85,7 +90,7 @@ export function cellsTableReducer(state = [], action) {
           ]));
         }
       }
-      return nextWorldState; // TODO :factorize processing with CREATE_WORLD
+      return nextWorldState; // TODO :factorize processing with CREATE_RECTANGLE_WORLD
 
     case TOGGLE_CELL_STATUS:
       const { x, y } = action;
@@ -103,4 +108,70 @@ function nextCellStatus(cellStatus, neighboursStatus) {
   && ((cellStatus === ALIVE && aliveNeighbours.length === 2) || aliveNeighbours.length === 3)
     ? ALIVE
     : DEAD;
+}
+
+export const createHexaWorld = (baseSize, status) => ({
+  type: CREATE_HEXA_WORLD,
+  baseSize,
+  status
+});
+
+export function hexagonalCellsReducer(state = [], action) {
+  switch (action.type) {
+    case CREATE_HEXA_WORLD:
+      const world = [];
+      const generateStatus = () => action.status !== undefined ? action.status : getRandomStatus();
+      const pattern = [undefined, action.status || generateStatus()];
+      for (let y = 0; y < action.baseSize * 2 + 1; y++) {
+        const newRow = [];
+        world.push(newRow);
+        if (y % 2 === 1) {
+          newRow.push(generateStatus());
+        }
+        for (let x = 0; x < action.baseSize; x++) {
+          newRow.push(...pattern);
+        }
+      }
+      return world;
+    case COMPUTE_NEXT_STATE:
+      const nextWorldState = [];
+      for (let y = 0; y < state.length; y++) {
+        const row = [];
+        nextWorldState.push(row);
+        for (let x = 0; x < state[y].length; x++) {
+          const currentCellState = state[y][x];
+          if (currentCellState !== undefined) {
+            console.log(x, y,
+              y > 1 && state[y - 2][x],
+              y > 0 && state[y - 1][x - 1],
+              y < state.length - 1 && state[y + 1][x - 1],
+              y < state.length - 2 && state[y + 2][x],
+              y < state.length - 1 && state[y + 1][x + 1],
+              y > 0 && state[y - 1][x + 1],
+              ' => ',
+              nextCellStatus(currentCellState, [
+                y > 1 && state[y - 2][x],
+                y > 0 && state[y - 1][x - 2],
+                y < state.length - 1 && state[y + 1][x - 1],
+                y < state.length - 2 && state[y + 2][x],
+                y < state.length - 1 && state[y + 1][x + 1],
+                y > 0 && state[y - 1][x + 2],
+              ]));
+          }
+          row.push(currentCellState === undefined
+            ? undefined
+            : nextCellStatus(currentCellState, [
+            y > 1 && state[y - 2][x],
+            y > 0 && state[y - 1][x - 1],
+            y < state.length - 1 && state[y + 1][x - 1],
+            y < state.length - 2 && state[y + 2][x],
+            y < state.length - 1 && state[y + 1][x + 1],
+            y > 0 && state[y - 1][x + 1],
+          ]));
+        }
+      }
+      return nextWorldState; // TODO :factorize processing with CREATE_RECTANGLE_WORLD
+    default:
+      return state;
+  }
 }
