@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import Toolbar from './Toolbar';
+import Toolbar, { RECTANGLE, HEXAGON } from './Toolbar';
 import {
   computeNextState,
   killThemAll,
-  lifeEverywhere, createWorld,
+  lifeEverywhere, createWorld, createHexaWorld,
 } from '../store/cell-duck';
 import { tableOfCellsSelector } from '../store/reducers';
 
@@ -12,7 +12,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  init: (rowsAmount, colsAmount) => dispatch(createWorld(rowsAmount, colsAmount)),
+  init: (shape, rowsAmount, colsAmount) => {
+    if (shape === RECTANGLE.value) {
+      dispatch(createWorld(rowsAmount, colsAmount));
+    } else if (shape === HEXAGON.value) {
+      dispatch(createHexaWorld(rowsAmount));
+    }
+  },
   play: () => dispatch(computeNextState),
   killThemAll: () => dispatch(killThemAll),
   lifeEverywhere: () => dispatch(lifeEverywhere),

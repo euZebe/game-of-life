@@ -41,9 +41,11 @@ const Input = ({ name, onChange, defaultValue, placeholder, value }) => (
 );
 
 const ITERATION_INTERVAL = 100;
+export const RECTANGLE = { value: 'rectangle', label: 'rectangle' };
+export const HEXAGON = { value: 'hexagon', label: 'hexagon' };
 const shapes = [
-  { value: 'rectangle', label: 'rectangle' },
-  { value: 'hexagon', label: 'hexagon' },
+  RECTANGLE,
+  HEXAGON,
 ];
 
 export default class Toolbar extends React.PureComponent {
@@ -56,8 +58,8 @@ export default class Toolbar extends React.PureComponent {
   intervalID = undefined;
 
   init = () => {
-    const { rows, cols } = this.state;
-    this.props.init(rows, cols);
+    const { shape, rows, cols } = this.state;
+    this.props.init(shape, rows, cols);
     this.stop();
   };
 
@@ -107,7 +109,7 @@ export default class Toolbar extends React.PureComponent {
           onChange={this.handleShapeChange}
           value={shape}
         >
-          {shapes.map(s => <MenuItem value={s.value} primaryText={s.label} />)}
+          {shapes.map(s => <MenuItem key={s.value} value={s.value} primaryText={s.label} />)}
         </SelectField>
           {shape === 'hexagon' &&
             <Input name='rows' placeholder='rows' value={this.state.rows} onChange={this.handleChange} />
