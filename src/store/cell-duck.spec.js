@@ -44,57 +44,47 @@ describe('cellsTableReducer', () => {
 
 describe('hexagonalCellsReducer', () => {
   test('should create a world of cells with hexagonal relations', () => {
-    const deadWorld = hexagonalCellsReducer(undefined, createHexaWorld(2, DEAD));
+    const deadWorld = hexagonalCellsReducer(undefined, createWorld(7, 3, DEAD));
     expect(deadWorld).toEqual([
-      [DEAD],
-      [DEAD, DEAD],
       [DEAD, DEAD, DEAD],
-      [DEAD, DEAD],
       [DEAD, DEAD, DEAD],
-      [DEAD, DEAD],
       [DEAD, DEAD, DEAD],
-      [DEAD, DEAD],
-      [DEAD],
+      [DEAD, DEAD, DEAD],
+      [DEAD, DEAD, DEAD],
+      [DEAD, DEAD, DEAD],
+      [DEAD, DEAD, DEAD],
     ]);
-    const aliveWorld = hexagonalCellsReducer(undefined, createHexaWorld(3, ALIVE));
+    const aliveWorld = hexagonalCellsReducer(undefined, createWorld(7, 3, ALIVE));
     expect(aliveWorld).toEqual([
-      [ALIVE],
-      [ALIVE, ALIVE],
       [ALIVE, ALIVE, ALIVE],
-      [ALIVE, ALIVE],
       [ALIVE, ALIVE, ALIVE],
-      [ALIVE, ALIVE],
       [ALIVE, ALIVE, ALIVE],
-      [ALIVE, ALIVE],
-      [ALIVE],
+      [ALIVE, ALIVE, ALIVE],
+      [ALIVE, ALIVE, ALIVE],
+      [ALIVE, ALIVE, ALIVE],
+      [ALIVE, ALIVE, ALIVE],
     ]);
   });
 
   test('should compute nextState in an hexagonal dimension', () => {
     const world = [
-         [ALIVE, ALIVE],
+      [DEAD, DEAD, DEAD],
+         [ALIVE, DEAD, DEAD],
+      [DEAD, DEAD, DEAD],
+         [ALIVE, ALIVE, ALIVE],
       [ALIVE, DEAD, DEAD],
-         [DEAD, DEAD],
+         [ALIVE, DEAD, DEAD],
+      [ALIVE, DEAD, DEAD],
     ];
     const nextState = hexagonalCellsReducer(world, computeNextState);
     expect(nextState).toEqual([
-         [ALIVE, DEAD],
+      [DEAD, DEAD, DEAD],
+         [DEAD, DEAD, DEAD],
       [DEAD, ALIVE, DEAD],
-         [DEAD, DEAD],
-    ]);
-  });
-
-  test('should compute nextState in an hexagonal dimension', () => {
-    const world = [
-         [DEAD, DEAD],
-      [ALIVE, ALIVE, DEAD],
-         [DEAD, ALIVE],
-    ];
-    const nextState = hexagonalCellsReducer(world, computeNextState);
-    expect(nextState).toEqual([
-         [DEAD, DEAD],
-      [DEAD, ALIVE, DEAD],
-         [ALIVE, DEAD],
+         [ALIVE, ALIVE, DEAD],
+      [ALIVE, DEAD, DEAD],
+         [ALIVE, DEAD, DEAD],
+      [DEAD, DEAD, DEAD],
     ]);
   });
 });
