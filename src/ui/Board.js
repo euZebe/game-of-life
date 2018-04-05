@@ -25,7 +25,7 @@ class Board extends React.Component {
     if (tableOfCells.length) {
       return tableOfCells.map(this.renderRowOfCells);
     } else if (honeyComb.length) {
-      const moreHexas = GridGenerator.hexagon(shape.radius);
+      const moreHexas = GridGenerator.orientedRectangle(shape.cols, shape.rows);
       return (
         <HexGrid width={400} height={400}> // FIXME problem with grid with, depending on radius
           <Layout spacing={1.1} >
