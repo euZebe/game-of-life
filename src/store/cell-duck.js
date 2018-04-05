@@ -140,23 +140,22 @@ export function hexagonalCellsReducer(state = [], action) {
         for (let x = 0; x < state[y].length; x++) {
           const offsetX = y % 2 === 1 ? 0 : -1;
           const currentCellState = state[y][x];
-          const upLeft = y > 0 && state[y - 1][x + offsetX];
-          const upRight = y > 0 && state[y - 1][x + 1 + offsetX];
-          const left = state[y][x - 1];
-          const right = state[y][x + 1];
-          const downLeft = y < state.length - 1 && state[y + 1][x + offsetX];
-          const downRight = y < state.length - 1 && state[y + 1][x + 1 + offsetX];
           row.push(nextCellStatus(currentCellState, [
-            upLeft,
-            upRight,
-            left,
-            right,
-            downLeft,
-            downRight,
+            y > 0 && state[y - 1][x + offsetX],
+            y > 0 && state[y - 1][x + 1 + offsetX],
+            state[y][x - 1],
+            state[y][x + 1],
+            y < state.length - 1 && state[y + 1][x + offsetX],
+            y < state.length - 1 && state[y + 1][x + 1 + offsetX],
           ]));
         }
       }
       return nextWorldState; // TODO :factorize processing with CREATE_RECTANGLE_WORLD
+
+    case GENOCIDE:
+      return switchAllCellsToStatus(state, DEAD);
+    case LIFE_EVERYWHERE:
+      return switchAllCellsToStatus(state, ALIVE);
     default:
       return state;
   }
