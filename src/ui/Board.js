@@ -1,7 +1,9 @@
 import React from 'react';
-import { HexGrid, Layout, GridGenerator, Hexagon } from 'react-hexgrid';
+import { HexGrid, Layout, GridGenerator } from 'react-hexgrid';
 import Cell from './Cell';
 import HexaCell from './HexaCell';
+
+const hexaSize = {x: 2, y: 2 };
 
 class Board extends React.Component {
 
@@ -10,7 +12,7 @@ class Board extends React.Component {
     return (
       <div key={yIndex}>
         {Object.values(cells).map((cellStatus, xIndex) => (
-          <Cell key={`${yIndex} ${xIndex}`} status={cellStatus} toggleStatus={() => toggleStatus(xIndex, yIndex)} />)
+          <Cell key={`${yIndex} ${xIndex}`} status={cellStatus} toggleStatus={() => toggleStatus(xIndex, yIndex)}/>)
         )}
       </div>
     );
@@ -25,17 +27,16 @@ class Board extends React.Component {
     if (tableOfCells.length) {
       return tableOfCells.map(this.renderRowOfCells);
     } else if (honeyComb.length) {
-      const moreHexas = GridGenerator.orientedRectangle(shape.cols, shape.rows);
+      const moreHexas = GridGenerator.rectangle(shape.cols, shape.rows);
       return (
-        <HexGrid width={400} height={400}> // FIXME problem with grid with, depending on radius
-          <Layout spacing={1.1} >
+        <HexGrid width={1000} height={600}> // FIXME problem with grid with, depending on radius
+          <Layout spacing={1.1} origin={{x: -70, y: -40}} flat={false} size={hexaSize} >
             {moreHexas.map((hex, i) => <HexaCell key={i} q={hex.q} r={hex.r} s={hex.s} status={honeyComb[i]}/>)}
           </Layout>
         </HexGrid>
       )
-    } else {
-      return <div />;
     }
+    return <div />;
   };
 
   render() {
