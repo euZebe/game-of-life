@@ -1,4 +1,5 @@
 import _cloneDeep from 'lodash/cloneDeep';
+import { HEXAGON, RECTANGLE } from '../model/shapes';
 
 export const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
 const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
@@ -9,8 +10,8 @@ const CREATE_HEXA_WORLD = 'CREATE_HEXA_WORLD';
 export const ALIVE = true;
 export const DEAD = false;
 
-export const createWorld = (rows, cols, defaultStatus) => ({
-  type: CREATE_RECTANGLE_WORLD,
+export const createWorld = (shape, rows, cols, defaultStatus) => ({
+  type: shape === RECTANGLE.value ? CREATE_RECTANGLE_WORLD : CREATE_HEXA_WORLD,
   rows,
   cols,
   defaultStatus,
@@ -56,6 +57,8 @@ function getRandomStatus() {
 
 export function cellsTableReducer(state = [], action) {
   switch (action.type) {
+    case CREATE_HEXA_WORLD:
+      return [];
     case CREATE_RECTANGLE_WORLD:
       const newWorld = [];
       for (let y = 0; y < action.rows; y++) {
@@ -111,15 +114,11 @@ function nextCellStatus(cellStatus, neighboursStatus) {
     : DEAD;
 }
 
-export const createHexaWorld = (baseSize, status) => ({ // FIXME remove this action creator
-  type: CREATE_HEXA_WORLD,
-  baseSize,
-  status
-});
-
 export function hexagonalCellsReducer(state = [], action) {
   switch (action.type) {
     case CREATE_RECTANGLE_WORLD:
+      return [];
+    case CREATE_HEXA_WORLD:
       const generateStatus = () => action.defaultStatus !== undefined
         ? action.defaultStatus
         : getRandomStatus();
@@ -144,20 +143,43 @@ export function hexagonalCellsReducer(state = [], action) {
           const upLeft = y > 0 && state[y - 1][x + offsetX];
           const upRight = y > 0 && state[y - 1][x + 1 + offsetX];
           const left = state[y][x - 1];
-          const right = state[y][x+1];
-          const downLeft = y < state.length - 1 && state[y+1][x + offsetX];
-          const downRight = y < state.length - 1 && state[y+1][x+1 + offsetX];
+          const right = state[y][x + 1];
+          const downLeft = y < state.length - 1 && state[y + 1][x + offsetX];
+          const downRight = y < state.length - 1 && state[y + 1][x + 1 + offsetX];
           row.push(nextCellStatus(currentCellState, [
-              upLeft,
-              upRight,
-              left,
-              right,
-              downLeft,
-              downRight,
-            ]));
+            upLeft,
+            upRight,
+            left,
+            right,
+            downLeft,
+            downRight,
+          ]));
         }
       }
       return nextWorldState; // TODO :factorize processing with CREATE_RECTANGLE_WORLD
+    default:
+      return state;
+  }
+}
+
+export function shapeReducer(state = {}, action) {
+  switch (action.type) {
+    case CREATE_RECTANGLE_WORLD: {
+      const { cols, rows } = action;
+      return {
+        shape: RECTANGLE.value,
+        cols,
+        rows,
+      };
+    }
+    case CREATE_HEXA_WORLD: {
+      const { cols, rows } = action;
+      return {
+        shape: HEXAGON.value,
+        cols,
+        rows,
+      };
+    }
     default:
       return state;
   }

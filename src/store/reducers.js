@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import reduceReducers from 'reduce-reducers';
 import { createSelector } from 'reselect';
 import {
   cellsTableReducer,
@@ -15,13 +14,12 @@ export const honeyCombAsSingleArraySelector = createSelector(
   arrayOfRows => [].concat.apply([], arrayOfRows),
 );
 
-const rootReducer = reduceReducers(
-  combineReducers({
-    cellsTable: cellsTableReducer,
-    hexaCells: hexagonalCellsReducer,
-    iterationNumber: iterationNumberReducer,
-  }),
-  shapeReducer,
-);
+const rootReducer = combineReducers({
+  cellsTable: cellsTableReducer,
+  hexaCells: hexagonalCellsReducer,
+  iterationNumber: iterationNumberReducer,
+  shape: shapeReducer,
+});
+
 
 export default rootReducer;

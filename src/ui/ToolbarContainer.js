@@ -1,23 +1,20 @@
 import { connect } from 'react-redux';
-import Toolbar, { RECTANGLE, HEXAGON } from './Toolbar';
+import Toolbar from './Toolbar';
 import {
   computeNextState,
   killThemAll,
-  lifeEverywhere, createWorld, createHexaWorld,
+  lifeEverywhere,
+  createWorld,
 } from '../store/cell-duck';
-import { tableOfCellsSelector } from '../store/reducers';
+import { honeyCombAsSingleArraySelector, tableOfCellsSelector } from '../store/reducers';
 
 const mapStateToProps = (state) => ({
-  thereAreCells: tableOfCellsSelector(state).length > 0,
+  thereAreCells: tableOfCellsSelector(state).length > 0 || honeyCombAsSingleArraySelector(state).length > 0,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   init: (shape, rowsAmount, colsAmount) => {
-    if (shape === RECTANGLE.value) {
-      dispatch(createWorld(rowsAmount, colsAmount));
-    } else if (shape === HEXAGON.value) {
-      dispatch(createHexaWorld(rowsAmount));
-    }
+    dispatch(createWorld(shape, rowsAmount, colsAmount));
   },
   play: () => dispatch(computeNextState),
   killThemAll: () => dispatch(killThemAll),

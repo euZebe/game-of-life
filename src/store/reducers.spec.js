@@ -23,6 +23,4 @@ describe('tableOfCellsSelector', () => {
     expect(table[1][0].id).toEqual('c'); // indexes are reversed to ease the display
     expect(table[2][1].id).toEqual('f');
   });
-
-
 });

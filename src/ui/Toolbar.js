@@ -5,6 +5,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import IterationCounter from './IterationCounter';
+import { shapes } from '../model/shapes';
 import './App.css';
 
 const styles = {
@@ -41,12 +42,6 @@ const Input = ({ name, onChange, defaultValue, placeholder, value }) => (
 );
 
 const ITERATION_INTERVAL = 100;
-export const RECTANGLE = { value: 'rectangle', label: 'rectangle' };
-export const HEXAGON = { value: 'hexagon', label: 'hexagon' };
-const shapes = [
-  RECTANGLE,
-  HEXAGON,
-];
 
 export default class Toolbar extends React.PureComponent {
 
@@ -111,17 +106,9 @@ export default class Toolbar extends React.PureComponent {
         >
           {shapes.map(s => <MenuItem key={s.value} value={s.value} primaryText={s.label} />)}
         </SelectField>
-          {shape === 'hexagon' &&
-            <Input name='rows' placeholder='rows' value={this.state.rows} onChange={this.handleChange} />
-        }
-        {
-          shape === 'rectangle' &&
-            <React.Fragment>
-              <Input name='cols' placeholder='cols' value={this.state.cols} onChange={this.handleChange} />
-              <Input name='rows' placeholder='rows' value={this.state.rows} onChange={this.handleChange} />
-            </React.Fragment>
-        }
-        <FlatButton primary onClick={this.init} label="create" style={styles.button} />
+        <Input name='cols' placeholder='cols' value={this.state.cols} onChange={this.handleChange} />
+        <Input name='rows' placeholder='rows' value={this.state.rows} onChange={this.handleChange} />
+        <FlatButton primary onClick={this.init} label="create" style={styles.button} disabled={!shape} />
         {thereAreCells &&
         <React.Fragment>
           <FlatButton primary onClick={this.play} label="play" style={styles.button} />
