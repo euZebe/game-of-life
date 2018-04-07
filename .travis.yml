@@ -5,5 +5,5 @@ branches:
     - gh-pages
 
 after_success:
-  - yarn deploy
+  - npm run deploy
   on: master
