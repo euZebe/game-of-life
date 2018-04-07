@@ -1,0 +1,9 @@
+language: node_js
+
+branches:
+  except:
+    - gh-pages
+
+after_success:
+  - yarn deploy
+  on: master
