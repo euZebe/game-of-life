@@ -1,18 +1,17 @@
 import { ALIVE, DEAD } from './cell-duck';
-import { tableOfCellsSelector } from './reducers';
+import { honeyCombAsSingleArraySelector, tableOfCellsSelector } from './reducers';
+import { RECTANGLE, HEXAGON } from '../model/shapes';
 
 describe('tableOfCellsSelector', () => {
-  test('should sort cells in a table according to their position', () => {
+  test('should select cells in a table according to their position', () => {
     const state = {
-      cellsById: {
-        a: { id: 'a', position: { x: 0, y: 0 }, status: DEAD },
-        b: { id: 'b', position: { x: 1, y: 0 }, status: DEAD },
-        c: { id: 'c', position: { x: 0, y: 1 }, status: ALIVE },
-        d: { id: 'd', position: { x: 1, y: 1 }, status: ALIVE },
-        e: { id: 'e', position: { x: 0, y: 2 }, status: DEAD },
-        f: { id: 'f', position: { x: 1, y: 2 }, status: DEAD },
-      },
-      world: {
+      cellsTable: [
+        [ALIVE, DEAD],
+        [DEAD, DEAD],
+        [ALIVE, ALIVE],
+      ],
+      shape: {
+        shape: RECTANGLE.value,
         height: 3,
         width: 2,
       }
@@ -20,7 +19,60 @@ describe('tableOfCellsSelector', () => {
 
     const table = tableOfCellsSelector(state);
     expect(Object.keys(table)).toHaveLength(3);
-    expect(table[1][0].id).toEqual('c'); // indexes are reversed to ease the display
-    expect(table[2][1].id).toEqual('f');
+  });
+
+  test('should return an empty array if hexagon is current', () => {
+    const state = {
+      cellsTable: [],
+      hexaCells: [
+        [ALIVE, DEAD],
+        [DEAD, DEAD],
+        [ALIVE, ALIVE],
+      ],
+      shape: {
+        shape: HEXAGON.value,
+        height: 3,
+        width: 2,
+      }
+    };
+    expect(tableOfCellsSelector(state)).toHaveLength(0);
+  });
+});
+
+describe('honeyCombSelector', () => {
+  test('should select cells in a table according to their position', () => {
+    const state = {
+      hexaCells: [
+        [ALIVE, DEAD],
+        [DEAD, DEAD],
+        [ALIVE, ALIVE],
+      ],
+      cellsTable: [],
+      shape: {
+        shape: HEXAGON.value,
+        rows: 3,
+        cols: 2,
+      }
+    };
+
+    const table = honeyCombAsSingleArraySelector(state);
+    expect(Object.keys(table)).toHaveLength(6);
+  });
+
+  test('should return an empty array if hexagon is current', () => {
+    const state = {
+      cellsTable: [
+        [ALIVE, DEAD],
+        [DEAD, DEAD],
+        [ALIVE, ALIVE],
+      ],
+      hexaCells: [],
+      shape: {
+        shape: RECTANGLE.value,
+        rows: 3,
+        cols: 2,
+      }
+    };
+    expect(honeyCombAsSingleArraySelector(state)).toHaveLength(0);
   });
 });
