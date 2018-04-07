@@ -12,3 +12,6 @@ https://en.wikipedia.org/wiki/Conway's_Game_of_Life
 * [an amawing clock](https://copy.sh/life/?gist=f3413564b1fa9c69f2bad4b0400b8090&step=512)
 * [Life in life](https://www.youtube.com/watch?v=xP5-iIeKXE8)
 * [crazy things with game of life](https://www.youtube.com/watch?v=C2vgICfQawE)
+
+
+## hexa => hand-spinner

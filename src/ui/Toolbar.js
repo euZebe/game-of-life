@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 import IterationCounter from './IterationCounter';
 import { shapes } from '../model/shapes';
 import './App.css';
+import 'font-awesome/css/font-awesome.css';
 
 const styles = {
   input: {
@@ -18,7 +19,10 @@ const styles = {
   },
   select: {
     width: '160px',
-  }
+  },
+  githubIcon: {
+    marginLeft: 'auto',
+  },
 };
 
 const StyledToolbar = styled.div`
@@ -117,6 +121,11 @@ export default class Toolbar extends React.PureComponent {
           <IterationCounter />
         </React.Fragment>
         }
+        <i
+          className="fa fa-github-square fa-2x"
+          style={styles.githubIcon}
+          onClick={() => window.open('https://github.com/euzebe/game-of-life')}
+        />
       </StyledToolbar>
     );
   }
