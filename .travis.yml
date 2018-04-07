@@ -1,9 +1,2 @@
 language: node_js
-
-branches:
-  except:
-    - gh-pages
-
-after_success:
-  - npm run deploy
-  on: master
+node_js: "iojs"
