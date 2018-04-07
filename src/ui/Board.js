@@ -18,10 +18,6 @@ class Board extends React.Component {
     );
   };
 
-  renderHoneyCombRow = (cells, yIndex) => {
-
-  };
-
   renderCells = () => {
     const { tableOfCells, honeyComb, shape } = this.props;
     if (tableOfCells.length) {
@@ -29,7 +25,7 @@ class Board extends React.Component {
     } else if (honeyComb.length) {
       const moreHexas = GridGenerator.rectangle(shape.cols, shape.rows);
       return (
-        <HexGrid width={1000} height={600}> // FIXME problem with grid with, depending on radius
+        <HexGrid width={1000} height={600}>
           <Layout spacing={1.1} origin={{x: -70, y: -40}} flat={false} size={hexaSize} >
             {moreHexas.map((hex, i) => <HexaCell key={i} q={hex.q} r={hex.r} s={hex.s} status={honeyComb[i]}/>)}
           </Layout>

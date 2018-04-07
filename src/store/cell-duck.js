@@ -27,11 +27,10 @@ export const toggleStatus = (x, y) => ({
 export const lifeEverywhere = { type: LIFE_EVERYWHERE };
 export const killThemAll = { type: GENOCIDE };
 
-const cellID = (x, y) => `${x},${y}`;
-
 export function iterationNumberReducer(iterationNumber = 0, action) {
   switch (action.type) {
     case CREATE_RECTANGLE_WORLD:
+    case CREATE_HEXA_WORLD:
       return 0;
     case COMPUTE_NEXT_STATE:
       return iterationNumber + 1;
