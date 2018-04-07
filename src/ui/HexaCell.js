@@ -21,10 +21,21 @@ class HexaCell extends React.Component {
     return nextProps.status !== this.props.status;
   }
 
+  handleMouseEnter = (e) => {
+    e.ctrlKey && this.props.toggleStatus();
+  };
+
+
   render() {
     const { status, q, r, s } = this.props;
     return (
-      <Hexagon q={q} r={r} s={s} cellStyle={status === ALIVE ? styles.alive : styles.dead}/>
+      <Hexagon
+        q={q}
+        r={r}
+        s={s}
+        cellStyle={status === ALIVE ? styles.alive : styles.dead}
+        onMouseEnter={this.handleMouseEnter}
+      />
     );
   }
 };

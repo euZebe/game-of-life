@@ -19,7 +19,7 @@ class Board extends React.Component {
   };
 
   renderCells = () => {
-    const { tableOfCells, honeyComb, shape } = this.props;
+    const { tableOfCells, honeyComb, shape, toggleStatusHexa } = this.props;
     if (tableOfCells.length) {
       return tableOfCells.map(this.renderRowOfCells);
     } else if (honeyComb.length) {
@@ -27,7 +27,9 @@ class Board extends React.Component {
       return (
         <HexGrid width={1000} height={600}>
           <Layout spacing={1.1} origin={{x: -70, y: -40}} flat={false} size={hexaSize} >
-            {moreHexas.map((hex, i) => <HexaCell key={i} q={hex.q} r={hex.r} s={hex.s} status={honeyComb[i]}/>)}
+            {moreHexas.map((hex, i) =>
+              <HexaCell key={i} q={hex.q} r={hex.r} s={hex.s} status={honeyComb[i]} toggleStatus = {() => toggleStatusHexa(i, shape)} />
+            )}
           </Layout>
         </HexGrid>
       )

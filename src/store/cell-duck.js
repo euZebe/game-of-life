@@ -76,6 +76,7 @@ export function cellsTableReducer(state = [], action) {
       return switchAllCellsToStatus(state, ALIVE);
 
     case COMPUTE_NEXT_STATE:
+      if (state.length === 0) return state;
       const nextWorldState = [];
       for (let y = 0; y < state.length; y++) {
         const row = [];
@@ -96,6 +97,7 @@ export function cellsTableReducer(state = [], action) {
       return nextWorldState; // TODO :factorize processing with CREATE_RECTANGLE_WORLD
 
     case TOGGLE_CELL_STATUS:
+      if (state.length === 0) return state;
       const { x, y } = action;
       const nextState = _cloneDeep(state);
       nextState[y][x] = !nextState[y][x];
@@ -132,6 +134,7 @@ export function hexagonalCellsReducer(state = [], action) {
       }
       return newWorld;
     case COMPUTE_NEXT_STATE:
+      if (state.length === 0) return state;
       const nextWorldState = [];
       for (let y = 0; y < state.length; y++) {
         const row = [];
@@ -155,6 +158,13 @@ export function hexagonalCellsReducer(state = [], action) {
       return switchAllCellsToStatus(state, DEAD);
     case LIFE_EVERYWHERE:
       return switchAllCellsToStatus(state, ALIVE);
+
+    case TOGGLE_CELL_STATUS:
+      if (state.length === 0) return state;
+      const { x, y } = action;
+      const nextState = _cloneDeep(state);
+      nextState[y][x] = !nextState[y][x];
+      return nextState;
     default:
       return state;
   }

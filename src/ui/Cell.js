@@ -21,7 +21,7 @@ class Cell extends React.Component {
 
   handleMouseEnter = (e) => {
     e.ctrlKey && this.props.toggleStatus();
-  }
+  };
 
   render() {
     const {status, toggleStatus} = this.props;

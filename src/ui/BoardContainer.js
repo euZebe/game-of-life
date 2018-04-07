@@ -9,9 +9,14 @@ const mapStateToProps = (state) => ({
   shape: state.shape,
 });
 
-const mapDispatchToProps = {
-  toggleStatus,
-};
+const mapDispatchToProps = (dispatch) => ({
+  toggleStatus: (x, y) => dispatch(toggleStatus(x, y)),
+  toggleStatusHexa: (index, shape) => {
+    const quotient = Math.floor(index / shape.cols);
+    const remainder = index % shape.cols;
+    dispatch(toggleStatus(remainder, quotient));
+  },
+});
 
 const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);
 
