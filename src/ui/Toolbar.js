@@ -6,8 +6,8 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import IterationCounter from './IterationCounter';
 import { shapes } from '../model/shapes';
+import FAButton from './FAButton';
 import './App.css';
-import 'font-awesome/css/font-awesome.css';
 
 const styles = {
   input: {
@@ -53,8 +53,8 @@ export default class Toolbar extends React.PureComponent {
     shape: undefined,
     cols: 20,
     rows: 10,
+    intervalID: undefined,
   };
-  intervalID = undefined;
 
   init = () => {
     const { shape, rows, cols } = this.state;
@@ -63,19 +63,20 @@ export default class Toolbar extends React.PureComponent {
   };
 
   stop = () => {
-    if (this.intervalID) {
+    if (this.state.intervalID) {
       clearInterval(this.intervalID);
-      this.intervalID = undefined;
+      this.setState({ intervalID: undefined });
     }
   };
 
   play = () => {
     const { rows, cols } = this.state;
-    if (this.intervalID) {
-      clearInterval(this.intervalID);
-      this.intervalID = undefined;
+    if (this.state.intervalID) {
+      clearInterval(this.state.intervalID);
+      this.setState({ intervalID: undefined });
     } else if (rows && cols) {
-      this.intervalID = setInterval(this.props.play, ITERATION_INTERVAL);
+      const intervalID = setInterval(this.props.play, ITERATION_INTERVAL);
+      this.setState({ intervalID });
     }
   };
 
@@ -108,21 +109,25 @@ export default class Toolbar extends React.PureComponent {
           onChange={this.handleShapeChange}
           value={shape}
         >
-          {shapes.map(s => <MenuItem key={s.value} value={s.value} primaryText={s.label} />)}
+          {shapes.map(s => <MenuItem key={s.value} value={s.value} primaryText={s.label}/>)}
         </SelectField>
-        <Input name='cols' placeholder='cols' value={this.state.cols} onChange={this.handleChange} />
-        <Input name='rows' placeholder='rows' value={this.state.rows} onChange={this.handleChange} />
-        <FlatButton primary onClick={this.init} label="create" style={styles.button} disabled={!shape} />
+        <Input name='cols' placeholder='cols' value={this.state.cols} onChange={this.handleChange}/>
+        <Input name='rows' placeholder='rows' value={this.state.rows} onChange={this.handleChange}/>
+        <FlatButton primary onClick={this.init} label="create" style={styles.button} disabled={!shape}/>
         {thereAreCells &&
         <React.Fragment>
-          <FlatButton primary onClick={this.play} label="play" style={styles.button} />
-          <FlatButton secondary onClick={this.genocide} label="genocide" style={styles.button} />
-          <FlatButton secondary onClick={this.lifeEverywhere} label="life everywhere" style={styles.button} />
-          <IterationCounter />
+          {this.state.intervalID
+            ? <FAButton iconName='pause-circle' size='2x' style={styles.button} onClick={this.play}/>
+            : <FAButton iconName='play-circle' size='2x' style={styles.button} onClick={this.play}/>
+          }
+          <FlatButton secondary onClick={this.genocide} label="genocide" style={styles.button}/>
+          <FlatButton secondary onClick={this.lifeEverywhere} label="life everywhere" style={styles.button}/>
+          <IterationCounter/>
         </React.Fragment>
         }
-        <i
-          className="fa fa-github-square fa-2x"
+        <FAButton
+          iconName="github-square"
+          size="2x"
           style={styles.githubIcon}
           onClick={() => window.open('https://github.com/euzebe/game-of-life')}
         />
