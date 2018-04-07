@@ -15,9 +15,19 @@ const styles = {
   },
 };
 
-const HexaCell = ({ status, q, r, s }) => (
-  <Hexagon q={q} r={r} s={s} cellStyle={status === ALIVE ? styles.alive : styles.dead} />
-);
+class HexaCell extends React.Component {
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.status !== this.props.status;
+  }
+
+  render() {
+    const { status, q, r, s } = this.props;
+    return (
+      <Hexagon q={q} r={r} s={s} cellStyle={status === ALIVE ? styles.alive : styles.dead}/>
+    );
+  }
+};
 
 HexaCell.propTypes = {
   status: PropTypes.bool,
