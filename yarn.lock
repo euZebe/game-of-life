@@ -5718,12 +5718,6 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
-react-hexgrid@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-hexgrid/-/react-hexgrid-1.0.3.tgz#fe0749eaa61d159805c913c8fb78502ce71e247a"
-  dependencies:
-    classnames "^2.2.5"
-
 react-redux@^5.0.7:
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.7.tgz#0dc1076d9afb4670f993ffaef44b8f8c1155a4c8"

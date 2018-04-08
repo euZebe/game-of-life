@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Hexagon } from 'react-hexgrid';
+import classnames from 'classnames';
 import { ALIVE } from '../store/cell-duck';
+import './hexaCell.css';
 
-const styles = {
-  dead: {
-    fill: 'white',
-    strokeWidth: 0.1,
-    stroke: 'black',
-  },
-  alive: {
-    strokeWidth: 0.1,
-    stroke: 'black',
-  },
+const cellSize = 20;
+
+const cellStyle = {
+  width: `${cellSize}px`,
+  height: `${cellSize}px`,
 };
 
 class HexaCell extends React.Component {
@@ -27,15 +23,12 @@ class HexaCell extends React.Component {
 
 
   render() {
-    const { status, q, r, s } = this.props;
+    const { status } = this.props;
+    const className = classnames('hexagon', status === ALIVE ? 'alive' : 'dead');
     return (
-      <Hexagon
-        q={q}
-        r={r}
-        s={s}
-        cellStyle={status === ALIVE ? styles.alive : styles.dead}
-        onMouseEnter={this.handleMouseEnter}
-      />
+      <div className="hexagon-wrapper" style={cellStyle}>
+        <div className={className} onMouseEnter={this.handleMouseEnter}/>
+      </div>
     );
   }
 };

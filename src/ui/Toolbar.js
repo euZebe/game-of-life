@@ -64,7 +64,7 @@ export default class Toolbar extends React.PureComponent {
 
   stop = () => {
     if (this.state.intervalID) {
-      clearInterval(this.intervalID);
+      clearInterval(this.state.intervalID);
       this.setState({ intervalID: undefined });
     }
   };

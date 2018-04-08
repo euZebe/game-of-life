@@ -1,9 +1,21 @@
 import React from 'react';
-import { HexGrid, Layout, GridGenerator } from 'react-hexgrid';
 import Cell from './Cell';
 import HexaCell from './HexaCell';
 
-const hexaSize = {x: 2, y: 2 };
+const styles = {
+  withOffset: (yIndex) => ({
+    position: 'relative',
+    left: '11px',
+    top: `${yIndex * -5}px`,
+  }),
+  withoutOffset: (yIndex) => ({
+    position: 'relative',
+    top: `${yIndex * -5}px`,
+  }),
+  container: {
+    margin: '20px',
+  },
+};
 
 class Board extends React.Component {
 
@@ -18,30 +30,32 @@ class Board extends React.Component {
     );
   };
 
+  renderRowOfHexaCells = (cells, yIndex) => {
+    const { toggleStatus } = this.props;
+    return (
+      <div key={yIndex} style={yIndex % 2 === 1 ? styles.withOffset(yIndex): styles.withoutOffset(yIndex)}>
+        {Object.values(cells).map((cellStatus, xIndex) => (
+          <HexaCell key={`${yIndex} ${xIndex}`} status={cellStatus} toggleStatus={() => toggleStatus(xIndex, yIndex)}/>)
+        )}
+      </div>
+    );
+  };
+
   renderCells = () => {
-    const { tableOfCells, honeyComb, shape, toggleStatusHexa } = this.props;
+    const { tableOfCells, honeyComb } = this.props;
     if (tableOfCells.length) {
       return tableOfCells.map(this.renderRowOfCells);
     } else if (honeyComb.length) {
-      const moreHexas = GridGenerator.rectangle(shape.cols, shape.rows);
-      return (
-        <HexGrid width={1000} height={600}>
-          <Layout spacing={1.1} origin={{x: -70, y: -40}} flat={false} size={hexaSize} >
-            {moreHexas.map((hex, i) =>
-              <HexaCell key={i} q={hex.q} r={hex.r} s={hex.s} status={honeyComb[i]} toggleStatus = {() => toggleStatusHexa(i, shape)} />
-            )}
-          </Layout>
-        </HexGrid>
-      )
+      return honeyComb.map(this.renderRowOfHexaCells);
     }
     return <div />;
   };
 
   render() {
     return (
-      <React.Fragment>
+      <div style={styles.container}>
         {this.renderCells()}
-      </React.Fragment>
+      </div>
     );
   }
 }
