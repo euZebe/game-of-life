@@ -1,18 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Hexagon } from 'react-hexgrid';
 import { ALIVE } from '../store/cell-duck';
+
+const cellSize = 20;
 
 const styles = {
   dead: {
-    fill: 'white',
-    strokeWidth: 0.1,
-    stroke: 'black',
+    minWidth: `${cellSize}px`,
+    width: `${cellSize}px`,
+    maxHeight: `${cellSize}px`,
+    height: `${cellSize}px`,
+    border: '1px solid white',
+    backgroundColor: '#ddd',
   },
   alive: {
-    strokeWidth: 0.1,
-    stroke: 'black',
+    minWidth: `${cellSize}px`,
+    width: `${cellSize}px`,
+    maxHeight: `${cellSize}px`,
+    height: `${cellSize}px`,
+    border: '1px solid white',
+    backgroundColor: 'black',
   },
+  horizontalOffset: {
+    maxWidth: `${cellSize/2}px`,
+    width: `${cellSize/2}px`,
+  }
 };
 
 class HexaCell extends React.Component {
@@ -27,13 +39,10 @@ class HexaCell extends React.Component {
 
 
   render() {
-    const { status, q, r, s } = this.props;
+    const { status } = this.props;
     return (
-      <Hexagon
-        q={q}
-        r={r}
-        s={s}
-        cellStyle={status === ALIVE ? styles.alive : styles.dead}
+      <span
+        style={status === ALIVE ? styles.alive : styles.dead}
         onMouseEnter={this.handleMouseEnter}
       />
     );

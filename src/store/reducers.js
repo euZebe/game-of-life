@@ -8,7 +8,7 @@ import {
 } from './cell-duck';
 
 export const tableOfCellsSelector = state => state.cellsTable;
-const honeyCombSelector = state => state.hexaCells;
+export const honeyCombSelector = state => state.hexaCells;
 export const honeyCombAsSingleArraySelector = createSelector(
   honeyCombSelector,
   arrayOfRows => [].concat.apply([], arrayOfRows),

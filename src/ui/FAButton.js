@@ -21,7 +21,7 @@ const FAButton = ({ iconName, size, style, onClick, disabled }) => {
 FAButton.propTypes = {
   iconName: PropTypes.string.isRequired,
   size: PropTypes.string,
-  style: PropTypes.shape,
+  style: PropTypes.shape({}),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
