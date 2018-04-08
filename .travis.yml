@@ -2,7 +2,4 @@ language: node_js
 node_js: "node"
 
 after_success:
-  - yarn deploy
-  on:
-    branch:
-      master
+  - ./deploy.sh
