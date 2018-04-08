@@ -1,4 +1,5 @@
 #!/bin/bash
-if [ "$TRAVIS_BRANCH" == "master" ]; then
+
+if [[ $TRAVIS_BRANCH == 'master' ]]; then
   yarn deploy
 fi
