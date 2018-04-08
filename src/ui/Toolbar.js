@@ -5,7 +5,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import IterationCounter from './IterationCounter';
-import { shapes } from '../model/shapes';
+import { shapes, HEXAGON } from '../model/shapes';
 import FAButton from './FAButton';
 import './App.css';
 
@@ -50,7 +50,7 @@ const ITERATION_INTERVAL = 100;
 export default class Toolbar extends React.PureComponent {
 
   state = {
-    shape: undefined,
+    shape: HEXAGON.value,
     cols: 20,
     rows: 10,
     intervalID: undefined,
