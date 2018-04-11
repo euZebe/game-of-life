@@ -58,6 +58,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
+    "cosmos": "cosmos",
+    "cosmos:export": "cosmos:export",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -105,6 +107,7 @@
   },
   "devDependencies": {
     "gh-pages": "^1.1.0",
+    "react-cosmos": "^3.6.1",
     "redux-devtools": "^3.4.1"
   }
 }
