@@ -3,15 +3,23 @@ import PropTypes from 'prop-types';
 import { ALIVE } from '../store/cell-duck';
 import './App.css';
 
-const DefaultCell = ({ label, ...rest }) => (
-  <span
-    className="cell"
-    role="img"
-    {...rest}
- >
-    {label}
-  </span>
-);
+const cellSize = 20;
+
+const cellStyles = {
+  alive: {
+    backgroundColor: 'black',
+  },
+  dead: {
+    backgroundColor: '#ddd',
+  },
+  cell: {
+    width: `${cellSize}px`,
+    height: `${cellSize}px`,
+    minWidth: `${cellSize}px`,
+    minHeight: `${cellSize}px`,
+  }
+};
+
 
 class Cell extends React.Component {
 
@@ -24,11 +32,12 @@ class Cell extends React.Component {
   };
 
   render() {
-    const {status, toggleStatus} = this.props;
-    return status === ALIVE
-      ? <DefaultCell aria-label="alive" onClick={toggleStatus} onMouseEnter={this.handleMouseEnter} label="⬛" />
-      : <DefaultCell aria-label="dead" onClick={toggleStatus} onMouseEnter={this.handleMouseEnter} label="⬜" />
-    ;
+    const { status, toggleStatus } = this.props;
+    const style= {
+      ...cellStyles.cell,
+      ...(status === ALIVE ? cellStyles.alive : cellStyles.dead)
+    };
+    return <div style={style} onClick={toggleStatus} onMouseEnter={this.handleMouseEnter} />
   }
 }
 
@@ -38,7 +47,8 @@ Cell.propTypes = {
 };
 
 Cell.defaultProps = {
-  toggleStatus: () => {},
+  toggleStatus: () => {
+  },
 };
 
 export default Cell;
