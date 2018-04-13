@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ALIVE } from '../store/cell-duck';
 import './App.css';
 
-const cellSize = 20;
+const cellSize = 10;
 
 const cellStyles = {
   alive: {
@@ -17,6 +17,7 @@ const cellStyles = {
     height: `${cellSize}px`,
     minWidth: `${cellSize}px`,
     minHeight: `${cellSize}px`,
+    margin: '1px',
   }
 };
 

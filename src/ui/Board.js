@@ -1,7 +1,7 @@
 import React from 'react';
-import Cell from './Cell';
 import RowOfHexaCells from './RowOfHexaCells';
 import RowOfRectangularCells from './RowOfRectangularCells';
+import UndoRedoButtons from "./UndoRedoButtons";
 
 const styles = {
   container: {
@@ -36,8 +36,10 @@ class Board extends React.Component {
   };
 
   render() {
+    const { canRedo, canUndo, onUndo, onRedo } = this.props;
     return (
       <div style={styles.container}>
+        <UndoRedoButtons canRedo={canRedo} canUndo={canUndo} onUndo={onUndo} onRedo={onRedo} />
         {this.renderCells()}
       </div>
     );

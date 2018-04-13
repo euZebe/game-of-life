@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
+import undoable from 'redux-undo';
 import {
   cellsTableReducer,
   hexagonalCellsReducer,
@@ -7,17 +8,19 @@ import {
   shapeReducer,
 } from './cell-duck';
 
-export const tableOfCellsSelector = state => state.cellsTable;
-export const honeyCombSelector = state => state.hexaCells;
+export const getTableOfCellsSelector = state => state.cellsTable.present;
+export const getHoneyCombSelector = state => state.hexaCells.present;
 export const honeyCombAsSingleArraySelector = createSelector(
-  honeyCombSelector,
+  getHoneyCombSelector,
   arrayOfRows => [].concat.apply([], arrayOfRows),
 );
+export const getShapeSelector = state => state.shape;
+export const iterationNumberSelector = state => state.iterationNumber.present;
 
 const rootReducer = combineReducers({
-  cellsTable: cellsTableReducer,
-  hexaCells: hexagonalCellsReducer,
-  iterationNumber: iterationNumberReducer,
+  cellsTable: undoable(cellsTableReducer),
+  hexaCells: undoable(hexagonalCellsReducer),
+  iterationNumber: undoable(iterationNumberReducer),
   shape: shapeReducer,
 });
 

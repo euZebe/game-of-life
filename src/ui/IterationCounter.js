@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { iterationNumberSelector } from '../store/cell-duck';
+import { iterationNumberSelector } from "../store/reducers";
 
 const Span = styled.span`
   margin-left: 20px;

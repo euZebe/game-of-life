@@ -1,12 +1,16 @@
 import { connect } from 'react-redux';
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import Board from './Board';
-import { honeyCombSelector, tableOfCellsSelector } from '../store/reducers';
+import {getHoneyCombSelector, getShapeSelector, getTableOfCellsSelector} from '../store/reducers';
 import { toggleStatus } from '../store/cell-duck';
 
 const mapStateToProps = (state) => ({
-  tableOfCells: tableOfCellsSelector(state),
-  honeyComb: honeyCombSelector(state),
-  shape: state.shape,
+  tableOfCells: getTableOfCellsSelector(state),
+  honeyComb: getHoneyCombSelector(state),
+  shape: getShapeSelector,
+  canRedo: true,
+  canUndo: true,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -16,6 +20,8 @@ const mapDispatchToProps = (dispatch) => ({
     const remainder = index % shape.cols;
     dispatch(toggleStatus(remainder, quotient));
   },
+  onUndo: () => dispatch(UndoActionCreators.undo()),
+  onRedo: () => dispatch(UndoActionCreators.redo()),
 });
 
 const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);

@@ -1,8 +1,8 @@
 import { ALIVE, DEAD } from './cell-duck';
-import { honeyCombAsSingleArraySelector, tableOfCellsSelector } from './reducers';
+import { honeyCombAsSingleArraySelector, getTableOfCellsSelector } from './reducers';
 import { RECTANGLE, HEXAGON } from '../model/shapes';
 
-describe('tableOfCellsSelector', () => {
+describe('getTableOfCellsSelector', () => {
   test('should select cells in a table according to their position', () => {
     const state = {
       cellsTable: [
@@ -17,7 +17,7 @@ describe('tableOfCellsSelector', () => {
       }
     };
 
-    const table = tableOfCellsSelector(state);
+    const table = getTableOfCellsSelector(state);
     expect(Object.keys(table)).toHaveLength(3);
   });
 
@@ -35,11 +35,11 @@ describe('tableOfCellsSelector', () => {
         width: 2,
       }
     };
-    expect(tableOfCellsSelector(state)).toHaveLength(0);
+    expect(getTableOfCellsSelector(state)).toHaveLength(0);
   });
 });
 
-describe('honeyCombSelector', () => {
+describe('getHoneyCombSelector', () => {
   test('should select cells in a table according to their position', () => {
     const state = {
       hexaCells: [

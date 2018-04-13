@@ -39,8 +39,6 @@ export function iterationNumberReducer(iterationNumber = 0, action) {
   }
 }
 
-export const iterationNumberSelector = state => state.iterationNumber;
-
 function switchAllCellsToStatus(state, cellStatus = DEAD) {
   const genocideState = new Array(state.length);
   let i = 0;

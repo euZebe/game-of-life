@@ -6,10 +6,10 @@ import {
   lifeEverywhere,
   createWorld,
 } from '../store/cell-duck';
-import { honeyCombAsSingleArraySelector, tableOfCellsSelector } from '../store/reducers';
+import { honeyCombAsSingleArraySelector, getTableOfCellsSelector } from '../store/reducers';
 
 const mapStateToProps = (state) => ({
-  thereAreCells: tableOfCellsSelector(state).length > 0 || honeyCombAsSingleArraySelector(state).length > 0,
+  thereAreCells: getTableOfCellsSelector(state).length > 0 || honeyCombAsSingleArraySelector(state).length > 0,
 });
 
 const mapDispatchToProps = (dispatch) => ({
