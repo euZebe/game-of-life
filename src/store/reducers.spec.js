@@ -5,11 +5,14 @@ import { RECTANGLE, HEXAGON } from '../model/shapes';
 describe('getTableOfCellsSelector', () => {
   test('should select cells in a table according to their position', () => {
     const state = {
-      cellsTable: [
-        [ALIVE, DEAD],
-        [DEAD, DEAD],
-        [ALIVE, ALIVE],
-      ],
+      cellsTable: {
+        past:[],
+        present: [
+          [ALIVE, DEAD],
+          [DEAD, DEAD],
+          [ALIVE, ALIVE],
+        ],
+      },
       shape: {
         shape: RECTANGLE.value,
         height: 3,
@@ -23,12 +26,14 @@ describe('getTableOfCellsSelector', () => {
 
   test('should return an empty array if hexagon is current', () => {
     const state = {
-      cellsTable: [],
-      hexaCells: [
-        [ALIVE, DEAD],
-        [DEAD, DEAD],
-        [ALIVE, ALIVE],
-      ],
+      cellsTable: {present:[]},
+      hexaCells: {
+        present: [
+          [ALIVE, DEAD],
+          [DEAD, DEAD],
+          [ALIVE, ALIVE],
+        ],
+      },
       shape: {
         shape: HEXAGON.value,
         height: 3,
@@ -42,12 +47,14 @@ describe('getTableOfCellsSelector', () => {
 describe('getHoneyCombSelector', () => {
   test('should select cells in a table according to their position', () => {
     const state = {
-      hexaCells: [
+      hexaCells: {present:[
         [ALIVE, DEAD],
         [DEAD, DEAD],
         [ALIVE, ALIVE],
-      ],
-      cellsTable: [],
+      ],},
+      cellsTable: {
+        present: []
+      },
       shape: {
         shape: HEXAGON.value,
         rows: 3,

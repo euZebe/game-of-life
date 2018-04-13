@@ -10,6 +10,8 @@ import {
 
 export const getTableOfCellsSelector = state => state.cellsTable.present;
 export const getHoneyCombSelector = state => state.hexaCells.present;
+export const getPastHoneyCombSelector = state => state.hexaCells.past;
+export const getFutureHoneyCombSelector = state => state.hexaCells.future;
 export const honeyCombAsSingleArraySelector = createSelector(
   getHoneyCombSelector,
   arrayOfRows => [].concat.apply([], arrayOfRows),

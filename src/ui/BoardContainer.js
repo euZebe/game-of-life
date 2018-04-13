@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import Board from './Board';
-import {getHoneyCombSelector, getShapeSelector, getTableOfCellsSelector} from '../store/reducers';
+import {
+  getFutureHoneyCombSelector, getHoneyCombSelector, getPastHoneyCombSelector, getShapeSelector,
+  getTableOfCellsSelector
+} from '../store/reducers';
 import { toggleStatus } from '../store/cell-duck';
 
 const mapStateToProps = (state) => ({
   tableOfCells: getTableOfCellsSelector(state),
   honeyComb: getHoneyCombSelector(state),
   shape: getShapeSelector,
-  canRedo: true,
-  canUndo: true,
+  canRedo: getFutureHoneyCombSelector(state).length,
+  canUndo: getPastHoneyCombSelector(state).length,
 
 });
 
