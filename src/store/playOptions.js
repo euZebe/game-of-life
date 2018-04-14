@@ -10,7 +10,7 @@ const togglePlay = processID => ({
 });
 
 const ITERATION_DURATION = 500;
-export const play = () => (dispatch, getState) => {
+export const playPause = () => (dispatch, getState) => {
   if (getIsPlaying(getState())) {
     clearInterval(getProcessID(getState()));
     dispatch(togglePlay(undefined));

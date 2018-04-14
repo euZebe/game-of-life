@@ -8,7 +8,7 @@ import {
   iterationNumberSelector,
 } from '../store/reducers';
 import { computeNextState, toggleStatus } from '../store/cell-duck';
-import { getIsPlaying, play } from '../store/playOptions';
+import { getIsPlaying, playPause } from '../store/playOptions';
 
 const mapStateToProps = (state) => ({
   tableOfCells: getTableOfCellsSelector(state),
@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
     const remainder = index % shape.cols;
     dispatch(toggleStatus(remainder, quotient));
   },
-  togglePlay: () => dispatch(play()),
+  togglePlay: () => dispatch(playPause()),
   play: () => dispatch(computeNextState),
   onUndo: () => dispatch(UndoActionCreators.undo()),
   onRedo: () => dispatch(computeNextState),

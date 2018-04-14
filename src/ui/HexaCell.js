@@ -38,7 +38,7 @@ class HexaCell extends React.Component {
 };
 
 HexaCell.propTypes = {
-  status: PropTypes.string.isRequired,
+  status: PropTypes.bool.isRequired,
   toggleStatus: PropTypes.func,
 };
 

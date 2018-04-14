@@ -7,8 +7,8 @@ const GENOCIDE = 'TOGGLE_GENOCIDE';
 const LIFE_EVERYWHERE = 'LIFE_EVERYWHERE';
 export const CREATE_RECTANGLE_WORLD = 'CREATE_RECTANGLE_WORLD';
 export const CREATE_HEXA_WORLD = 'CREATE_HEXA_WORLD';
-export const ALIVE = 'alive';
-export const DEAD = 'dead';
+export const ALIVE = true;
+export const DEAD = false;
 
 export const createWorld = (shape, rows, cols, defaultStatus) => ({
   type: shape === RECTANGLE.value ? CREATE_RECTANGLE_WORLD : CREATE_HEXA_WORLD,
