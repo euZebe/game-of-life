@@ -5750,6 +5750,15 @@ react-cosmos-playground@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/react-cosmos-playground/-/react-cosmos-playground-3.6.1.tgz#35156db3ca2ed8f8b733ea239a13870f4931676c"
 
+react-cosmos-redux-proxy@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/react-cosmos-redux-proxy/-/react-cosmos-redux-proxy-3.6.1.tgz#38fcb8cf86c1c0bd97760efd0e7689b0dd78420e"
+  dependencies:
+    lodash.omit "^4.5.0"
+    prop-types "^15.5.10"
+    react-cosmos-shared "^3.6.1"
+    redux "^3.7.2"
+
 react-cosmos-shared@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/react-cosmos-shared/-/react-cosmos-shared-3.6.1.tgz#4805f675780353cfb4da7198a75b1f86cf84b1bb"
@@ -6028,6 +6037,10 @@ redux-devtools@^3.4.1:
     lodash "^4.2.0"
     prop-types "^15.5.7"
     redux-devtools-instrument "^1.0.1"
+
+redux-thunk@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
 
 redux-undo@beta:
   version "1.0.0-beta9-9-7"

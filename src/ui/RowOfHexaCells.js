@@ -24,7 +24,7 @@ const RowOfHexaCells = ({ cells, yIndex, toggleStatus }) => {
     <div key={yIndex} style={style}>
       {
         Object.values(cells).map((cellStatus, xIndex) => (
-          <HexaCell key={`${yIndex} ${xIndex}`} status={cellStatus} toggleStatus={() => toggleStatus(xIndex, yIndex)}/>)
+          <HexaCell key={`${yIndex} ${xIndex}`} status={cellStatus} toggleStatus={(status) => toggleStatus(xIndex, yIndex, status)}/>)
         )
       }
     </div>

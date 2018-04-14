@@ -5,10 +5,10 @@ export const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
 const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
 const GENOCIDE = 'TOGGLE_GENOCIDE';
 const LIFE_EVERYWHERE = 'LIFE_EVERYWHERE';
-const CREATE_RECTANGLE_WORLD = 'CREATE_RECTANGLE_WORLD';
-const CREATE_HEXA_WORLD = 'CREATE_HEXA_WORLD';
-export const ALIVE = true;
-export const DEAD = false;
+export const CREATE_RECTANGLE_WORLD = 'CREATE_RECTANGLE_WORLD';
+export const CREATE_HEXA_WORLD = 'CREATE_HEXA_WORLD';
+export const ALIVE = 'alive';
+export const DEAD = 'dead';
 
 export const createWorld = (shape, rows, cols, defaultStatus) => ({
   type: shape === RECTANGLE.value ? CREATE_RECTANGLE_WORLD : CREATE_HEXA_WORLD,
@@ -18,10 +18,12 @@ export const createWorld = (shape, rows, cols, defaultStatus) => ({
 });
 
 export const computeNextState = { type: COMPUTE_NEXT_STATE };
-export const toggleStatus = (x, y) => ({
+
+export const toggleStatus = (x, y, status) => ({
   type: TOGGLE_CELL_STATUS,
   x,
   y,
+  status,
 });
 
 export const lifeEverywhere = { type: LIFE_EVERYWHERE };
@@ -161,7 +163,7 @@ export function hexagonalCellsReducer(state = [], action) {
       if (state.length === 0) return state;
       const { x, y } = action;
       const nextState = _cloneDeep(state);
-      nextState[y][x] = !nextState[y][x];
+      nextState[y][x] = action.status || !nextState[y][x];
       return nextState;
     default:
       return state;

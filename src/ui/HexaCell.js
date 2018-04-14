@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { ALIVE } from '../store/cell-duck';
+import { ALIVE, DEAD } from '../store/cell-duck';
 import './hexaCell.css';
 
 const cellSize = 20;
@@ -18,7 +18,11 @@ class HexaCell extends React.Component {
   }
 
   handleMouseEnter = (e) => {
-    e.ctrlKey && this.props.toggleStatus();
+    if (e.ctrlKey) {
+      this.props.toggleStatus(DEAD);
+    } else if (e.altKey) {
+      this.props.toggleStatus(ALIVE);
+    }
   };
 
 
@@ -34,7 +38,7 @@ class HexaCell extends React.Component {
 };
 
 HexaCell.propTypes = {
-  status: PropTypes.bool,
+  status: PropTypes.string.isRequired,
   toggleStatus: PropTypes.func,
 };
 

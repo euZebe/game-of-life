@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ALIVE } from '../store/cell-duck';
 import './App.css';
 
-const cellSize = 10;
+const cellSize = 15;
 
 const cellStyles = {
   alive: {
@@ -43,7 +43,7 @@ class Cell extends React.Component {
 }
 
 Cell.propTypes = {
-  status: PropTypes.bool.isRequired,
+  status: PropTypes.string.isRequired,
   toggleStatus: PropTypes.func,
 };
 

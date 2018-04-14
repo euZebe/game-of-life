@@ -45,8 +45,6 @@ const Input = ({ name, onChange, defaultValue, placeholder, value }) => (
   />
 );
 
-const ITERATION_INTERVAL = 100;
-
 export default class Toolbar extends React.PureComponent {
 
   state = {
@@ -66,17 +64,6 @@ export default class Toolbar extends React.PureComponent {
     if (this.state.intervalID) {
       clearInterval(this.state.intervalID);
       this.setState({ intervalID: undefined });
-    }
-  };
-
-  play = () => {
-    const { rows, cols } = this.state;
-    if (this.state.intervalID) {
-      clearInterval(this.state.intervalID);
-      this.setState({ intervalID: undefined });
-    } else if (rows && cols) {
-      const intervalID = setInterval(this.props.play, ITERATION_INTERVAL);
-      this.setState({ intervalID });
     }
   };
 
@@ -100,7 +87,7 @@ export default class Toolbar extends React.PureComponent {
   };
 
   render() {
-    const { thereAreCells } = this.props;
+    const { areThereCells } = this.props;
     const { shape } = this.state;
     return (
       <StyledToolbar>
@@ -114,16 +101,12 @@ export default class Toolbar extends React.PureComponent {
         <Input name='cols' placeholder='cols' value={this.state.cols} onChange={this.handleChange}/>
         <Input name='rows' placeholder='rows' value={this.state.rows} onChange={this.handleChange}/>
         <FlatButton primary onClick={this.init} label="create" style={styles.button} disabled={!shape}/>
-        {thereAreCells &&
-        <React.Fragment>
-          {this.state.intervalID
-            ? <FAButton iconName='pause-circle' size='2x' style={styles.button} onClick={this.play}/>
-            : <FAButton iconName='play-circle' size='2x' style={styles.button} onClick={this.play}/>
-          }
-          <FlatButton secondary onClick={this.genocide} label="genocide" style={styles.button}/>
-          <FlatButton secondary onClick={this.lifeEverywhere} label="life everywhere" style={styles.button}/>
-          <IterationCounter/>
-        </React.Fragment>
+        {areThereCells &&
+          <React.Fragment>
+            <FlatButton secondary onClick={this.genocide} label="genocide" style={styles.button}/>
+            <FlatButton secondary onClick={this.lifeEverywhere} label="life everywhere" style={styles.button}/>
+            <IterationCounter/>
+          </React.Fragment>
         }
         <FAButton
           iconName="github-square"
