@@ -1,14 +1,13 @@
 import React from 'react';
+import styled from 'styled-components';
 import Cell from './Cell';
 
-const styles = {
-  row: {
-    display: 'flex',
-  },
-};
+const Row = styled.div`
+    display: flex;
+`;
 
 const RowOfRectangularCells = ({ cells, yIndex, toggleStatus }) => (
-  <div key={yIndex} style={styles.row}>
+  <Row>
     {Object.values(cells).map((cellStatus, xIndex) => (
         <Cell
           key={`${yIndex} ${xIndex}`}
@@ -17,7 +16,7 @@ const RowOfRectangularCells = ({ cells, yIndex, toggleStatus }) => (
         />
       )
     )}
-  </div>
+  </Row>
 );
 
 export default RowOfRectangularCells;

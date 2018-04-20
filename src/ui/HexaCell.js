@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { ALIVE, DEAD } from '../store/cell-duck';
+import styled from 'styled-components';
+import { ALIVE, DEAD, StatusType } from '../store/cell-duck';
 import './hexaCell.css';
 
 const cellSize = 20;
 
-const cellStyle = {
-  width: `${cellSize}px`,
-  height: `${cellSize}px`,
-};
+const CellWrapper = styled.div`
+  width: ${cellSize}px;
+  height: ${cellSize}px;
+`;
+
+const DeadOrAliveCell = styled.div`
+    background-color: ${props => props.status === ALIVE ? 'black': '#ddd'};
+`;
 
 class HexaCell extends React.Component {
 
@@ -27,18 +31,20 @@ class HexaCell extends React.Component {
 
 
   render() {
-    const { status } = this.props;
-    const className = classnames('hexagon', status === ALIVE ? 'alive' : 'dead');
     return (
-      <div className="hexagon-wrapper" style={cellStyle}>
-        <div className={className} onMouseEnter={this.handleMouseEnter}/>
-      </div>
+      <CellWrapper className="hexagon-wrapper">
+        <DeadOrAliveCell
+          className='hexagon'
+          status={this.props.status}
+          onMouseEnter={this.handleMouseEnter}
+        />
+      </CellWrapper>
     );
   }
 };
 
 HexaCell.propTypes = {
-  status: PropTypes.bool.isRequired,
+  status: StatusType.isRequired,
   toggleStatus: PropTypes.func,
 };
 

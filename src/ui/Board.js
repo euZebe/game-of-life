@@ -1,20 +1,15 @@
 import React from 'react';
+import styled from 'styled-components';
 import RowOfHexaCells from './RowOfHexaCells';
 import RowOfRectangularCells from './RowOfRectangularCells';
 import FAButton from './FAButton';
 import PlayButton from './PlayButton';
 
-const styles = {
-  container: {
-    margin: '20px',
-  },
-  hidden: {
-    visibility: 'hidden',
-  },
-};
+const Container = styled.div`
+  margin: 20px;
+`;
 
 class Board extends React.Component {
-
 
   renderCells = () => {
     const { tableOfCells, honeyComb, toggleStatus } = this.props;
@@ -37,20 +32,20 @@ class Board extends React.Component {
         />
       );
     }
-    return <div />;
+    return <div/>;
   };
 
   render() {
     const { canRedo, canUndo, onUndo, onRedo, togglePlay, isPlaying } = this.props;
     return (
-      <div style={styles.container}>
+      <Container>
         <div>
-          <FAButton size='2x' iconName='arrow-left' onClick={onUndo} style={!canUndo ? styles.hidden : null} />
-          <FAButton size='2x' iconName='arrow-right' onClick={onRedo} style={!canRedo ? styles.hidden: null} />
-          <PlayButton isPlaying={isPlaying} togglePlay={togglePlay} disabled={!canRedo} />
+          <FAButton size='2x' iconName='arrow-left' onClick={onUndo} isHidden={!canUndo} >truc</FAButton>
+          <FAButton size='2x' iconName='arrow-right' onClick={onRedo} isHidden={!canRedo} />
+          <PlayButton isPlaying={isPlaying} togglePlay={togglePlay} disabled={!canRedo}/>
         </div>
         {this.renderCells()}
-      </div>
+      </Container>
     );
   }
 }

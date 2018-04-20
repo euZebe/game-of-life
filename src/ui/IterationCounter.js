@@ -5,6 +5,8 @@ import { iterationNumberSelector } from "../store/reducers";
 
 const Span = styled.span`
   margin-left: 20px;
+  margin-right: 10px;
+  white-space: nowrap;
 `;
 
 const IterationCounter = ({iterationCounter}) => (

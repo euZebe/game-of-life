@@ -1,24 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ALIVE } from '../store/cell-duck';
+import styled from 'styled-components';
+import { ALIVE, StatusType } from '../store/cell-duck';
 import './App.css';
 
 const cellSize = 15;
 
-const cellStyles = {
-  alive: {
-    backgroundColor: 'black',
-  },
-  dead: {
-    backgroundColor: '#ddd',
-  },
-  cell: {
-    width: `${cellSize}px`,
-    height: `${cellSize}px`,
-    minWidth: `${cellSize}px`,
-    minHeight: `${cellSize}px`,
-    margin: '1px',
-  }
+const StyledCell = styled.div`
+    width: ${cellSize}px;
+    height: ${cellSize}px;
+    min-width: ${cellSize}px;
+    min-height: ${cellSize}px;
+    margin: 1px;
+    background-color: ${props => props.status === ALIVE ? 'black': '#ddd'};
+`;
+
+StyledCell.propTypes = {
+  status: StatusType.isRequired,
 };
 
 
@@ -34,16 +32,12 @@ class Cell extends React.Component {
 
   render() {
     const { status, toggleStatus } = this.props;
-    const style= {
-      ...cellStyles.cell,
-      ...(status === ALIVE ? cellStyles.alive : cellStyles.dead)
-    };
-    return <div style={style} onClick={toggleStatus} onMouseEnter={this.handleMouseEnter} />
+    return <StyledCell status={status} onClick={toggleStatus} onMouseEnter={this.handleMouseEnter} />
   }
 }
 
 Cell.propTypes = {
-  status: PropTypes.string.isRequired,
+  status: StatusType.isRequired,
   toggleStatus: PropTypes.func,
 };
 

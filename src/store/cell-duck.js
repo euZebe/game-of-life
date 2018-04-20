@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import _cloneDeep from 'lodash/cloneDeep';
 import { HEXAGON, RECTANGLE } from '../model/shapes';
 
@@ -9,6 +10,7 @@ export const CREATE_RECTANGLE_WORLD = 'CREATE_RECTANGLE_WORLD';
 export const CREATE_HEXA_WORLD = 'CREATE_HEXA_WORLD';
 export const ALIVE = true;
 export const DEAD = false;
+export const StatusType = PropTypes.bool;
 
 export const createWorld = (shape, rows, cols, defaultStatus) => ({
   type: shape === RECTANGLE.value ? CREATE_RECTANGLE_WORLD : CREATE_HEXA_WORLD,

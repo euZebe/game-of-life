@@ -1,36 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import styled from 'styled-components';
 import 'font-awesome/css/font-awesome.css';
+import classnames from 'classnames';
 
-const FAButton = ({ iconName, size, style, onClick, disabled }) => {
+// className is given by the Styled parent ; don't forget to add it to computed classnames
+const UnstyledFAButton = ({ iconName, size, className, onClick, disabled }) => {
   const classNames = classnames(
     'fa',
     `fa-${iconName}`,
     size && `fa-${size}`,
+    className,
   );
   return (
     <span
       className={classNames}
-      style={style}
       onClick={(...args) => !disabled && onClick(...args)}
     />
   );
 };
 
-FAButton.propTypes = {
+UnstyledFAButton.propTypes = {
   iconName: PropTypes.string.isRequired,
   size: PropTypes.string,
-  style: PropTypes.shape({}),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
-FAButton.defaultProps = {
+UnstyledFAButton.defaultProps = {
   size: undefined,
-  style: undefined,
   disabled: false,
-  onClick: () => {},
+  onClick: () => {
+  },
+};
+
+const FAButton = styled(UnstyledFAButton)`
+  visibility: ${({ isHidden }) => isHidden ? 'hidden' : 'default'};
+`;
+
+FAButton.propTypes = {
+  isHidden: PropTypes.bool,
+};
+
+FAButton.defaultProps = {
+  isHidden: false,
 };
 
 export default FAButton;
