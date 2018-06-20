@@ -38,7 +38,7 @@ class Board extends React.Component {
   render() {
     const { canRedo, canUndo, onUndo, onRedo, togglePlay, isPlaying } = this.props;
     return (
-      <Container>
+      <Container id='board'>
         <div>
           <FAButton size='2x' iconName='arrow-left' onClick={onUndo} isHidden={!canUndo} >truc</FAButton>
           <FAButton size='2x' iconName='arrow-right' onClick={onRedo} isHidden={!canRedo} />

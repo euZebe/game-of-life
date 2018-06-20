@@ -1,5 +1,16 @@
 language: node_js
 node_js: "node"
 
+cache:
+  directories:
+    - ~/.npm
+    - ~/.cache
+
+install:
+  - npm ci
+
+script:
+  - $(npm bin)/cypress run --record
+
 after_success:
   - ./deploy.sh

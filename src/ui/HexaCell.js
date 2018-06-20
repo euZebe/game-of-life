@@ -37,6 +37,7 @@ class HexaCell extends React.Component {
           className='hexagon'
           status={this.props.status}
           onMouseEnter={this.handleMouseEnter}
+          data-type='cell'
         />
       </CellWrapper>
     );

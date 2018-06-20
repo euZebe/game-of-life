@@ -60,6 +60,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
+    "cypress": "cypress open",
     "cosmos": "cosmos",
     "cosmos:export": "cosmos:export",
     "predeploy": "npm run build",
@@ -108,6 +109,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "cypress": "^3.0.1",
     "gh-pages": "^1.1.0",
     "react-cosmos": "^3.6.1",
     "react-cosmos-redux-proxy": "^3.6.1",

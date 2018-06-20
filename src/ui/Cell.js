@@ -32,7 +32,12 @@ class Cell extends React.Component {
 
   render() {
     const { status, toggleStatus } = this.props;
-    return <StyledCell status={status} onClick={toggleStatus} onMouseEnter={this.handleMouseEnter} />
+    return <StyledCell
+      status={status}
+      onClick={toggleStatus}
+      onMouseEnter={this.handleMouseEnter}
+      data-type='cell'
+    />
   }
 }
 

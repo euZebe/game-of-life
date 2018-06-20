@@ -10,7 +10,7 @@ const Span = styled.span`
 `;
 
 const IterationCounter = ({iterationCounter}) => (
-  <Span>Iteration #{iterationCounter}</Span>
+  <Span id='iterationCounter'>Iteration #{iterationCounter}</Span>
 );
 
 const mapStateToProps = state => ({

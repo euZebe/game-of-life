@@ -99,11 +99,11 @@ export default class Toolbar extends React.PureComponent {
         </SelectField>
         <StyledNumberInput name='cols' placeholder='cols' value={this.state.cols} onChange={this.handleChange}/>
         <StyledNumberInput name='rows' placeholder='rows' value={this.state.rows} onChange={this.handleChange}/>
-        <StyledFlatButton primary onClick={this.init} label="create" disabled={!shape}/>
+        <StyledFlatButton primary id='createBoardBtn' onClick={this.init} label="create" disabled={!shape}/>
         {areThereCells &&
         <React.Fragment>
-          <StyledFlatButton secondary onClick={this.genocide} label="genocide"/>
-          <StyledFlatButton secondary onClick={this.lifeEverywhere} label="life everywhere"/>
+          <StyledFlatButton secondary id='genocideBtn' onClick={this.genocide} label="genocide"/>
+          <StyledFlatButton secondary id='lifeEverywhereBtn' onClick={this.lifeEverywhere} label="life everywhere"/>
           <IterationCounter/>
         </React.Fragment>
         }
