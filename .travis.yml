@@ -1,13 +1,10 @@
 language: node_js
-node_js: "node"
+node_js: 9
 
 cache:
   directories:
     - ~/.npm
     - ~/.cache
-
-install:
-  - yarn install --frozen-lockfile
 
 script:
   - $(npm bin)/cypress run --record
