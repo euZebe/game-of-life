@@ -1,34 +1,29 @@
 /// <reference types="Cypress" />
-context('init', () => {
+context('init game', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/')
-  })
+  });
 
-  it('an hexagonal, x cols and y rows game should build a x-by-y-cell board ', () => {
+  it('hexagonal game, x cols & y rows game, should build a x-by-y-cell board ', () => {
     const cols = 10;
     const rows = 10;
     cy.get('input[name="cols"]')
       .clear()
-      .type(cols)
-
+      .type(cols);
     cy.get('input[name="rows"]')
       .clear()
-      .type(rows)
-
+      .type(rows);
     cy.get('#createBoardBtn')
-      .click()
+      .click();
 
-    cy.get('[data-type="cell"').should('have.length', rows * cols);
-  })
+    cy.get('[data-type="cell"]').should('have.length', rows * cols);
+  });
 
-  it('a rectangular game with default cols and rows values should create a 200-cell board', () => {
-    cy.get('div[name="grid-shape"]')
-      .click()
-    cy.get('span[role="menuitem"]').first().click()
+  it('rectangular game, default cols &rows values, should create a 200-cell board', () => {
+    cy.get('div[name="grid-shape"]').click();
+    cy.get('span[role="menuitem"]').first().click();
+    cy.get('#createBoardBtn').click();
 
-    cy.get('#createBoardBtn')
-      .click()
-
-    cy.get('[data-type="cell"').should('have.length', 200);
+    cy.get('[data-type="cell"]').should('have.length', 200);
   })
 })
