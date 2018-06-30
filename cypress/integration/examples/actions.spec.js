@@ -24,6 +24,6 @@ context('action buttons', () => {
       .click()
       .should('be.visible');
 
-    cy.get('#iterationCounter').should('have.text', 'Iteration #2')
+    cy.get('#iterationCounter').should('have.text', 'Iteration #3')
   })
 })
