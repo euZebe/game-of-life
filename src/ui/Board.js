@@ -9,7 +9,7 @@ const Container = styled.div`
   margin: 20px;
 `;
 
-class Board extends React.Component {
+class Board extends React.PureComponent {
 
   renderCells = () => {
     const { tableOfCells, honeyComb, toggleStatus } = this.props;
@@ -40,7 +40,7 @@ class Board extends React.Component {
     return (
       <Container id='board'>
         <div>
-          <FAButton size='2x' iconName='arrow-left' onClick={onUndo} isHidden={!canUndo} >truc</FAButton>
+          <FAButton size='2x' iconName='arrow-left' onClick={onUndo} isHidden={!canUndo} />
           <FAButton size='2x' iconName='arrow-right' onClick={onRedo} isHidden={!canRedo} />
           <PlayButton isPlaying={isPlaying} togglePlay={togglePlay} disabled={!canRedo}/>
         </div>

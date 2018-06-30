@@ -5,20 +5,25 @@ import 'font-awesome/css/font-awesome.css';
 import classnames from 'classnames';
 
 // className is given by the Styled parent ; don't forget to add it to computed classnames
-const UnstyledFAButton = ({ iconName, size, className, onClick, disabled }) => {
-  const classNames = classnames(
-    'fa',
-    `fa-${iconName}`,
-    size && `fa-${size}`,
-    className,
-  );
-  return (
-    <span
-      className={classNames}
-      onClick={(...args) => !disabled && onClick(...args)}
-    />
-  );
-};
+class UnstyledFAButton extends React.PureComponent {
+
+  render() {
+    const { iconName, size, className, onClick, disabled } = this.props;
+    console.log('rerender', iconName);
+    const classNames = classnames(
+      'fa',
+      `fa-${iconName}`,
+      size && `fa-${size}`,
+      className,
+    );
+    return (
+      <span
+        className={classNames}
+        onClick={(...args) => !disabled && onClick(...args)}
+      />
+    );
+  }
+}
 
 UnstyledFAButton.propTypes = {
   iconName: PropTypes.string.isRequired,

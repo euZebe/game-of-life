@@ -1,7 +1,7 @@
 import React from 'react';
 import FAButton from './FAButton';
 
-class PlayButton extends React.Component {
+class PlayButton extends React.PureComponent {
 
   render() {
     const { isPlaying, disabled, togglePlay } = this.props;

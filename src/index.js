@@ -9,7 +9,7 @@ import registerServiceWorker from './registerServiceWorker';
 import reducers from './store/reducers';
 import playMiddleware from './store/playMiddleware';
 
-const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   reducers,
@@ -23,3 +23,9 @@ ReactDOM.render(
   document.getElementById('root')
 );
 registerServiceWorker();
+
+
+if (process.env.NODE_ENV !== 'production') {
+  const { whyDidYouUpdate } = require('why-did-you-update');
+  whyDidYouUpdate(React);
+}
