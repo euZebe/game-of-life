@@ -1,22 +1,23 @@
-import PropTypes from 'prop-types';
-import _cloneDeep from 'lodash/cloneDeep';
-import { HEXAGON, RECTANGLE } from '../model/shapes';
+import PropTypes from "prop-types";
+import _cloneDeep from "lodash/cloneDeep";
+import { HEXAGON, RECTANGLE } from "../model/shapes";
 
-export const COMPUTE_NEXT_STATE = 'COMPUTE_NEXT_STATE';
-const TOGGLE_CELL_STATUS = 'TOGGLE_CELL_STATUS';
-const GENOCIDE = 'TOGGLE_GENOCIDE';
-const LIFE_EVERYWHERE = 'LIFE_EVERYWHERE';
-export const CREATE_RECTANGLE_WORLD = 'CREATE_RECTANGLE_WORLD';
-export const CREATE_HEXA_WORLD = 'CREATE_HEXA_WORLD';
+export const COMPUTE_NEXT_STATE = "COMPUTE_NEXT_STATE";
+export const SET_NEXT_GAME_STATE = "SET_NEXT_GAME_STATE";
+const TOGGLE_CELL_STATUS = "TOGGLE_CELL_STATUS";
+const GENOCIDE = "TOGGLE_GENOCIDE";
+const LIFE_EVERYWHERE = "LIFE_EVERYWHERE";
+export const CREATE_RECTANGLE_WORLD = "CREATE_RECTANGLE_WORLD";
+export const CREATE_HEXA_WORLD = "CREATE_HEXA_WORLD";
 export const ALIVE = true;
 export const DEAD = false;
 export const StatusType = PropTypes.bool;
 
 export const createWorld = (shape, rows, cols, defaultStatus) => ({
   type: shape === RECTANGLE.value ? CREATE_RECTANGLE_WORLD : CREATE_HEXA_WORLD,
-  rows,
-  cols,
-  defaultStatus,
+  rows: Number.parseInt(rows, 10),
+  cols: Number.parseInt(cols, 10),
+  defaultStatus
 });
 
 export const computeNextState = { type: COMPUTE_NEXT_STATE };
@@ -25,7 +26,7 @@ export const toggleStatus = (x, y, status) => ({
   type: TOGGLE_CELL_STATUS,
   x,
   y,
-  status,
+  status
 });
 
 export const lifeEverywhere = { type: LIFE_EVERYWHERE };
@@ -77,6 +78,9 @@ export function cellsTableReducer(state = [], action) {
     case LIFE_EVERYWHERE:
       return switchAllCellsToStatus(state, ALIVE);
 
+    case SET_NEXT_GAME_STATE:
+      return action.nextState;
+
     case COMPUTE_NEXT_STATE:
       if (state.length === 0) return state;
       const nextWorldState = [];
@@ -84,16 +88,18 @@ export function cellsTableReducer(state = [], action) {
         const row = [];
         nextWorldState.push(row);
         for (let x = 0; x < state[y].length; x++) {
-          row.push(nextCellStatus(state[y][x], [
-            y > 0 && state[y - 1][x - 1],
-            state[y][x - 1],
-            y < state.length - 1 && state[y + 1][x - 1],
-            y > 0 && state[y - 1][x],
-            y < state.length - 1 && state[y + 1][x],
-            y > 0 && state[y - 1][x + 1],
-            state[y][x + 1],
-            y < state.length - 1 && state[y + 1][x + 1],
-          ]));
+          row.push(
+            nextCellStatus(state[y][x], [
+              y > 0 && state[y - 1][x - 1],
+              state[y][x - 1],
+              y < state.length - 1 && state[y + 1][x - 1],
+              y > 0 && state[y - 1][x],
+              y < state.length - 1 && state[y + 1][x],
+              y > 0 && state[y - 1][x + 1],
+              state[y][x + 1],
+              y < state.length - 1 && state[y + 1][x + 1]
+            ])
+          );
         }
       }
       return nextWorldState; // TODO :factorize processing with CREATE_RECTANGLE_WORLD
@@ -111,8 +117,9 @@ export function cellsTableReducer(state = [], action) {
 
 function nextCellStatus(cellStatus, neighboursStatus) {
   const aliveNeighbours = neighboursStatus.filter(n => n === ALIVE);
-  return aliveNeighbours
-  && ((cellStatus === ALIVE && aliveNeighbours.length === 2) || aliveNeighbours.length === 3)
+  return aliveNeighbours &&
+    ((cellStatus === ALIVE && aliveNeighbours.length === 2) ||
+      aliveNeighbours.length === 3)
     ? ALIVE
     : DEAD;
 }
@@ -122,9 +129,10 @@ export function hexagonalCellsReducer(state = [], action) {
     case CREATE_RECTANGLE_WORLD:
       return [];
     case CREATE_HEXA_WORLD:
-      const generateStatus = () => action.defaultStatus !== undefined
-        ? action.defaultStatus
-        : getRandomStatus();
+      const generateStatus = () =>
+        action.defaultStatus !== undefined
+          ? action.defaultStatus
+          : getRandomStatus();
 
       const newWorld = [];
       for (let y = 0; y < action.rows; y++) {
@@ -144,14 +152,16 @@ export function hexagonalCellsReducer(state = [], action) {
         for (let x = 0; x < state[y].length; x++) {
           const offsetX = y % 2 === 1 ? 0 : -1;
           const currentCellState = state[y][x];
-          row.push(nextCellStatus(currentCellState, [
-            y > 0 && state[y - 1][x + offsetX],
-            y > 0 && state[y - 1][x + 1 + offsetX],
-            state[y][x - 1],
-            state[y][x + 1],
-            y < state.length - 1 && state[y + 1][x + offsetX],
-            y < state.length - 1 && state[y + 1][x + 1 + offsetX],
-          ]));
+          row.push(
+            nextCellStatus(currentCellState, [
+              y > 0 && state[y - 1][x + offsetX],
+              y > 0 && state[y - 1][x + 1 + offsetX],
+              state[y][x - 1],
+              state[y][x + 1],
+              y < state.length - 1 && state[y + 1][x + offsetX],
+              y < state.length - 1 && state[y + 1][x + 1 + offsetX]
+            ])
+          );
         }
       }
       return nextWorldState; // TODO :factorize processing with CREATE_RECTANGLE_WORLD
@@ -179,7 +189,7 @@ export function shapeReducer(state = {}, action) {
       return {
         shape: RECTANGLE.value,
         cols,
-        rows,
+        rows
       };
     }
     case CREATE_HEXA_WORLD: {
@@ -187,7 +197,7 @@ export function shapeReducer(state = {}, action) {
       return {
         shape: HEXAGON.value,
         cols,
-        rows,
+        rows
       };
     }
     default:

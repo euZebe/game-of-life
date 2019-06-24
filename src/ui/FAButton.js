@@ -9,7 +9,6 @@ class UnstyledFAButton extends React.PureComponent {
 
   render() {
     const { iconName, size, className, onClick, disabled } = this.props;
-    console.log('rerender', iconName);
     const classNames = classnames(
       'fa',
       `fa-${iconName}`,

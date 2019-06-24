@@ -4,6 +4,7 @@ import Cell from './Cell';
 
 const Row = styled.div`
     display: flex;
+    justify-content: center;
 `;
 
 const RowOfRectangularCells = ({ cells, yIndex, toggleStatus }) => (
